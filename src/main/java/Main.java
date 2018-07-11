@@ -11,15 +11,16 @@ public class Main {
             BufferedReader br = new BufferedReader(fr);
             String line = null;
             int lineCnt = 0;
-            String SeasonTitle;
+            String SeasonTitle = "title";
             ArrayList<Player> players = new ArrayList<>();
+            ArrayList<String> tournamentList = new ArrayList<>();
             while ((line = br.readLine()) != null){
                 if(lineCnt == 0){
                     SeasonTitle = line;
                     System.out.println(SeasonTitle);
                 }else if(lineCnt == 1){
                     String[] Tournaments = line.split(",");
-                    ArrayList<String> tournamentList = new ArrayList<>();
+                    tournamentList = new ArrayList<>();
                     for (String s:Tournaments) {
                         tournamentList.add(s);
                     }
@@ -31,12 +32,11 @@ public class Main {
                     players.add(p);
                     }
             }
-            Season s = new Season
+            Season s = new Season(SeasonTitle, tournamentList, players);
             br.close();
             fr.close();
             FileWriter fw = new FileWriter("Data/Smash4/Seasons/TestSeason.csv",true);
             BufferedWriter bw = new BufferedWriter(fw);
-
             bw.close();
             fw.close();
 
