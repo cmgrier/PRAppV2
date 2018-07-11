@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         JSONObject obj = new JSONObject();
         try {
-            FileReader fr = new FileReader("Data/Smash4/Seasons/TestSeason.csv");
+            FileReader fr = new FileReader("Data/Smash4/Seasons/TestSeason");
             BufferedReader br = new BufferedReader(fr);
             String line = null;
             int lineCnt = 0;
@@ -35,7 +35,7 @@ public class Main {
             Season s = new Season(SeasonTitle, tournamentList, players);
             br.close();
             fr.close();
-            FileWriter fw = new FileWriter("Data/Smash4/Seasons/TestSeason.csv",true);
+            FileWriter fw = new FileWriter("Data/Smash4/Seasons/TestSeason",true);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.close();
             fw.close();
@@ -43,7 +43,7 @@ public class Main {
         }catch (IOException e){}
         System.out.println("Complete");
 //        try {
-//            FileWriter fw = new FileWriter("Data/Smash4/Seasons/TestSeason.csv");
+//            FileWriter fw = new FileWriter("Data/Smash4/Seasons/TestSeason");
 //        }
 //        catch (IOException e){}
     }

@@ -1,0 +1,5 @@
+TournamentTitle
+P1,1,P2,2
+P3,3,P4,2
+P1,1,P3,3
+P4,3,P1,1
