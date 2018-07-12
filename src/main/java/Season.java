@@ -1,4 +1,13 @@
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Season {
     ArrayList<Player> players;
@@ -9,5 +18,86 @@ public class Season {
         this.name = name;
         this.tournaments = tournaments;
         this.players = players;
+    }
+
+    //creates tournament from inputed data
+    public void addTournament(String tournamentJSON, String game){
+        try {
+            // TODO: 7/11/2018 add an if to ensure the tournament name (and location) doesn't exist already
+
+            //creates file for JSON object to live in
+            JSONObject object = (JSONObject) new JSONParser().parse(tournamentJSON);
+            JSONObject tournament = (JSONObject) object.get("tournament");
+            String name = (String) tournament.get("name");
+            String jsonFileLocation = "Data/" + game + "/Tournaments/JSONFiles/" + name;
+            FileWriter JSONWriter = new FileWriter(jsonFileLocation);
+            BufferedWriter BJSONWriter = new BufferedWriter(JSONWriter);
+            String TourneyString = object.toString();
+            BJSONWriter.write(TourneyString);
+            BJSONWriter.close();
+            JSONWriter.close();
+
+            //creates file for CSV where we will store name of tournament and all matches
+            String csvFileLocation = "Data/" + game + "/Tournaments/CSVFiles/" + name;
+            FileWriter CSVWriter = new FileWriter(csvFileLocation);
+            BufferedWriter BCSVWriter = new BufferedWriter(CSVWriter);
+            BCSVWriter.write(name);
+
+            //gets matches from JSON file and writes them into CSV
+            ArrayList<Match> matches = new ArrayList<>();
+            matches = readMatches(tournament);
+            for (Match m:matches) {
+                BCSVWriter.newLine();
+                BCSVWriter.write(m.toString());
+            }
+            BCSVWriter.close();
+            CSVWriter.close();
+
+
+
+        }catch (ParseException pe){
+            System.out.println("Could not parse");
+        }
+        catch (IOException e){
+            System.out.println("Could not read and/or write file");
+        }
+    }
+
+    public HashMap<Integer, String> readPlayers(JSONObject tournament){
+        HashMap<Integer, String> returnlist = new HashMap<>();
+        JSONArray players = (JSONArray) tournament.get("participants");
+        //System.out.println(players);
+        for(int i = 0; i < players.size(); i++){
+            JSONObject obj = (JSONObject) players.get(i);
+            JSONObject player = (JSONObject) obj.get("participant");
+            String PlayerName = player.get("name").toString();
+            Integer PlayerID = Integer.parseInt(player.get("id").toString());
+            returnlist.put(PlayerID,PlayerName);
+        }
+        return returnlist;
+    }
+
+    public ArrayList<Match> readMatches(JSONObject tournament){
+        //System.out.println("ReadingMatches...");
+        //System.out.println("");
+        ArrayList<Match> returnList = new ArrayList<>();
+        JSONArray matches = (JSONArray) tournament.get("matches");
+        HashMap<Integer, String> players = readPlayers(tournament);
+        for(int i = 0; i < matches.size(); i++){
+            JSONObject obj = (JSONObject) matches.get(i);
+            JSONObject match = (JSONObject) obj.get("match");
+            Integer Player1ID = Integer.parseInt(match.get("player1_id").toString());
+            Integer Player2ID = Integer.parseInt(match.get("player2_id").toString());
+            String matchScore = (String) match.get("scores_csv");
+            String[] score = matchScore.split("-");
+            int player1wins = Integer.parseInt(score[0]);
+            int player2wins = Integer.parseInt(score[1]);
+            String Player1 = players.get(Player1ID);
+            String Player2 = players.get(Player2ID);
+            Match newMatch = new Match(Player1,player1wins,Player2,player2wins);
+            //System.out.println("Match: " + Player1 + " " + Player2 + " " + player1wins + " " + player2wins);
+            returnList.add(newMatch);
+        }
+        return returnList;
     }
 }
