@@ -15,4 +15,12 @@ public class Match {
         String returnString = player1Tag + "," + player1Score + "," + player2Tag + "," + player2Score;
         return returnString;
     }
+
+    public String getWinner(){
+        if(player1Score > player2Score){
+            return player1Tag;
+        } else {
+            return player2Tag;
+        }
+    }
 }
