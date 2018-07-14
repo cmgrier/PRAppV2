@@ -12,10 +12,18 @@ public class Season {
     ArrayList<String> tournaments;
     String name;
 
+    double startingScore = 1600; //the starting score for new players
+
     Season(String name, ArrayList<String> tournaments,ArrayList<Player> players){
         this.name = name;
         this.tournaments = tournaments;
         this.players = players;
+    }
+
+    Season(String name){
+        this.name = name;
+        this.tournaments = new ArrayList<String>();
+        this.players = new ArrayList<Player>();
     }
 
     //creates tournament from inputed data
@@ -28,8 +36,8 @@ public class Season {
             //creates file for JSON object to live in
             JSONObject object = (JSONObject) new JSONParser().parse(tournamentJSON);
             JSONObject tournament = (JSONObject) object.get("tournament");
-            String name = (String) tournament.get("name");
-            String jsonFileLocation = "Data/" + game + "/Tournaments/JSONFiles/" + name;
+            String tournamentName = (String) tournament.get("name");
+            String jsonFileLocation = "Data/" + game + "/Tournaments/JSONFiles/" + tournamentName + ".json";
             FileWriter JSONWriter = new FileWriter(jsonFileLocation);
             BufferedWriter BJSONWriter = new BufferedWriter(JSONWriter);
             String TourneyString = object.toString();
@@ -37,11 +45,12 @@ public class Season {
             BJSONWriter.close();
             JSONWriter.close();
 
+            tournaments.add(tournamentName);
             //creates file for CSV where we will store name of tournament and all matches
-            String csvFileLocation = "Data/" + game + "/Tournaments/CSVFiles/" + name;
+            String csvFileLocation = "Data/" + game + "/Tournaments/CSVFiles/" + tournamentName + ".csv";
             FileWriter CSVWriter = new FileWriter(csvFileLocation);
             BufferedWriter BCSVWriter = new BufferedWriter(CSVWriter);
-            BCSVWriter.write(name);
+            BCSVWriter.write(tournamentName);
 
             //gets matches from JSON file and writes them into CSV
             ArrayList<Match> matches = new ArrayList<>();
@@ -53,11 +62,11 @@ public class Season {
             BCSVWriter.close();
             CSVWriter.close();
 
-            String seasonFileLocation = "Data/" + game + "/Seasons/" + this.name;
-            FileReader seasonReader = new FileReader(seasonFileLocation);
-            BufferedReader BseasonReader = new BufferedReader(seasonReader);
-            BseasonReader.close();
-            seasonReader.close();
+            String seasonFileLocation = "Data/" + game + "/Seasons/" + this.name + ".csv";
+//            FileReader seasonReader = new FileReader(seasonFileLocation);
+//            BufferedReader BseasonReader = new BufferedReader(seasonReader);
+//            BseasonReader.close();
+//            seasonReader.close();
 
             FileWriter seasonWriter = new FileWriter(seasonFileLocation);
             BufferedWriter BseasonWriter = new BufferedWriter(seasonWriter);
@@ -72,9 +81,11 @@ public class Season {
             BseasonWriter.write(tournamentString);
             for (Player p:players) {
                 BseasonWriter.newLine();
-                String playerString = p.tag + "," + p.score + "," + convertCharacters(p.characters);
+                String playerString = p.tag + "," + p.score + "," + convertCharacters(p.characters) + "," + p.initialScore;
                 BseasonWriter.write(playerString);
             }
+            BseasonWriter.close();
+            seasonWriter.close();
 
 
         }catch (ParseException pe){
@@ -83,7 +94,6 @@ public class Season {
         catch (IOException e){
             System.out.println("Could not read and/or write file");
         }
-        tournaments.add(name);
     }
 
     private String convertCharacters(ArrayList<String> characters){
@@ -128,9 +138,8 @@ public class Season {
             Match newMatch = new Match(Player1,player1wins,Player2,player2wins);
 
             //update player scores
-            Player p1;
-            Player p2;
-            // todo add creation of new players if they didn't already exist in Season
+            Player p1 = new Player("DNE",0,null,0);
+            Player p2 = new Player("DNE",0,null,0);
             for (Player p:this.players) {
                 if(Player1.equals(p.tag)){
                     p1 = p;
@@ -139,9 +148,29 @@ public class Season {
                     p2 = p;
                 }
             }
+            if(p1.getTag().equals("DNE")){
+                p1 = new Player(Player1,startingScore);
+            }
+            if(p2.getTag().equals("DNE")){
+                p2 = new Player(Player2,startingScore);
+            }
 
             if(p1.getTag().equals(newMatch.getWinner())){
-
+                p1.updateScores(p2,true);
+            }
+            for (Player p:this.players) {
+                if(p.getTag().equals(p1.tag)){
+                    p.setScore(p1.score);
+                }
+                if(p.getTag().equals(p2.tag)){
+                    p.setScore(p2.score);
+                }
+            }
+            if(!this.players.contains(p1)){
+                this.players.add(p1);
+            }
+            if(!this.players.contains(p2)){
+                this.players.add(p2);
             }
 
             //System.out.println("Match: " + Player1 + " " + Player2 + " " + player1wins + " " + player2wins);
@@ -149,4 +178,5 @@ public class Season {
         }
         return returnList;
     }
+
 }
