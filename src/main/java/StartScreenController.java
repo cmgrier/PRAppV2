@@ -1,5 +1,3 @@
-package Controllers;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -8,11 +6,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class StartScreenController implements Initializable{
@@ -132,7 +132,49 @@ public class StartScreenController implements Initializable{
         }
     }
 
-    public void addTournament(){
-
+    public void changeSeason(){
+        //todo update the top ten with the new season
     }
+
+    public void addTournament(){
+        String game = CurrentGame.getText();
+        String seasonTitle = CurrentSeason.getText();
+        try {
+            JSONObject tourney = (JSONObject) new JSONParser().parse(TournamentText.getText());
+            JSONObject tournament = (JSONObject) tourney.get("tournament");
+            String tournamentName = (String) tournament.get("name");
+            FileReader fr = new FileReader("Data/" + game + "/Seasons/" + seasonTitle);
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+            int lineCnt = 0;
+            ArrayList<String> tournamentList = new ArrayList<>();
+            ArrayList<Player> players = new ArrayList<>();
+            while((line = br.readLine()) != null){
+                lineCnt++;
+                if(lineCnt == 2){
+                    String[] tourneyList = line.split(",");
+                    for (String s:tourneyList) {
+                        tournamentList.add(s);
+                    }
+                } else {
+                    String[] thePlayer = line.split(",");
+                    String[] theCharacters = thePlayer[2].split(".");
+                    ArrayList<String> characters = new ArrayList<>();
+                    for (String s:theCharacters) {
+                        characters.add(s);
+                    }
+                    Player p = new Player(thePlayer[0],Double.parseDouble(thePlayer[1]),characters,Double.parseDouble(thePlayer[3]));
+                    players.add(p);
+                }
+            }
+            Season s = new Season(seasonTitle,tournamentList,players);
+            if(!TournamentText.getText().isEmpty() && !tournamentList.contains(tournamentName)){
+                s.addTournament(TournamentText.getText(), game);
+                s.writeSeason(game);
+            }
+
+        }catch (IOException ioe){}
+        catch (ParseException pe){}
+    }
+
 }

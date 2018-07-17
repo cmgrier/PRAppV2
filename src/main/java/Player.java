@@ -78,6 +78,14 @@ public class Player {
         return returnList;
     }
 
+    public String characterString(){
+        String characters = "";
+        for (String s:this.characters) {
+            characters = characters + s + ".";
+        }
+        return characters.substring(0,characters.length()-2);
+    }
+
     public ArrayList<String> getCharacters() {
         return characters;
     }

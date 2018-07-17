@@ -14,7 +14,7 @@ public class Season {
 
     double startingScore = 1600; //the starting score for new players
 
-    Season(String name, ArrayList<String> tournaments,ArrayList<Player> players){
+    Season(String name, ArrayList<String> tournaments, ArrayList<Player> players){
         this.name = name;
         this.tournaments = tournaments;
         this.players = players;
@@ -94,6 +94,28 @@ public class Season {
         catch (IOException e){
             System.out.println("Could not read and/or write file");
         }
+    }
+
+    public void writeSeason(String game){
+        try {
+            FileWriter fw = new FileWriter("Data/" + game + "/Seasons/" + this.name);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(this.name);
+            bw.newLine();
+            String tournamentString = "";
+
+            for (String s:this.tournaments) {
+                tournamentString = tournamentString + s + ",";
+            }
+            bw.write(tournamentString.substring(0,tournamentString.length() - 2));
+            for (Player p:players) {
+                bw.newLine();
+                String playerString = p.tag + "," + p.score + "," + p.characterString() + "," + p.initialScore;
+                bw.write(playerString);
+            }
+            bw.close();
+            fw.close();
+        }catch (IOException ioe){}
     }
 
     private String convertCharacters(ArrayList<String> characters){
