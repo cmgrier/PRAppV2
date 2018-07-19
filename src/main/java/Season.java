@@ -5,6 +5,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class Season {
@@ -62,7 +63,7 @@ public class Season {
             BCSVWriter.close();
             CSVWriter.close();
 
-            String seasonFileLocation = "Data/" + game + "/Seasons/" + this.name + ".csv";
+            String seasonFileLocation = "Data/" + game + "/Seasons/" + this.name;
 //            FileReader seasonReader = new FileReader(seasonFileLocation);
 //            BufferedReader BseasonReader = new BufferedReader(seasonReader);
 //            BseasonReader.close();
@@ -77,7 +78,7 @@ public class Season {
                 tournamentString += s;
                 tournamentString += ",";
             }
-            tournamentString.substring(0,(tournamentString.length()-2));
+            tournamentString.substring(0,(tournamentString.length()-1));
             BseasonWriter.write(tournamentString);
             for (Player p:players) {
                 BseasonWriter.newLine();
@@ -107,7 +108,7 @@ public class Season {
             for (String s:this.tournaments) {
                 tournamentString = tournamentString + s + ",";
             }
-            bw.write(tournamentString.substring(0,tournamentString.length() - 2));
+            bw.write(tournamentString.substring(0,tournamentString.length() - 1));
             for (Player p:players) {
                 bw.newLine();
                 String playerString = p.tag + "," + p.score + "," + p.characterString() + "," + p.initialScore;
@@ -138,6 +139,19 @@ public class Season {
             returnlist.put(PlayerID,PlayerName);
         }
         return returnlist;
+    }
+
+    public ArrayList<Player> orderedList(){
+        ArrayList<Player> orderedList = new ArrayList<>();
+        orderedList.addAll(players);
+        Collections.sort(orderedList);
+        Collections.reverse(orderedList);
+        if(orderedList.size() < 10){
+            for(int i = 0; i < 10; i++){
+                orderedList.add(new Player("",0));
+            }
+        }
+        return orderedList;
     }
 
     public ArrayList<Match> readMatches(JSONObject tournament){

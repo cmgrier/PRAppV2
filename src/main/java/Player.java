@@ -3,7 +3,7 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 
 
-public class Player {
+public class Player implements Comparable<Player>{
     String tag;
     double score;
     ArrayList<String> characters;
@@ -83,7 +83,16 @@ public class Player {
         for (String s:this.characters) {
             characters = characters + s + ".";
         }
-        return characters.substring(0,characters.length()-2);
+        if(characters.length()>1) {
+            return characters.substring(0, characters.length() - 1);
+        } else {
+            return characters;
+        }
+    }
+
+    @Override
+    public int compareTo(Player player){
+        return (int)(this.score - player.getScore());
     }
 
     public ArrayList<String> getCharacters() {

@@ -13,18 +13,19 @@ import org.json.simple.parser.ParseException;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
 public class StartScreenController implements Initializable{
 
     @FXML
-    TextField TournamentText, newSeasonTitle;
+    TextField TournamentText, newSeasonTitle, NewPlayerTag, PlayerScore;
 
     @FXML
     Button AddTournamentButton, AddSeasonButton;
 
     @FXML
-    ComboBox<String> ChangeSeason, ChangeGame;
+    ComboBox<String> ChangeSeason, ChangeGame, SelectPlayer, FirstCharacter, SecondCharacter, ThirdCharacter;
 
     @FXML
     Label CurrentGame, CurrentSeason;
@@ -35,9 +36,6 @@ public class StartScreenController implements Initializable{
 
     @FXML
     Label PlayerName1,PlayerName2,PlayerName3,PlayerName4,PlayerName5,PlayerName6,PlayerName7,PlayerName8,PlayerName9,PlayerName10 = new Label();
-
-    @FXML
-    Label Sponser1,Sponser2,Sponser3,Sponser4,Sponser5,Sponser6,Sponser7,Sponser8,Sponser9,Sponser10 = new Label();
 
     @FXML
     ImageView Characters11, Characters12, Characters13, Characters21, Characters22, Characters23, Characters31, Characters32, Characters33 ,
@@ -114,6 +112,86 @@ public class StartScreenController implements Initializable{
         // do all things here that happen when this screen is started
         CurrentGame.setText(defaultGame);
         CurrentSeason.setText(defaultSeason);
+        updateSeasonList();
+        fillCharacterList();
+        fillPlayerBox();
+    }
+
+    public void updateSeasonList(){
+        File[] seasonFiles = new File("Data/" + CurrentGame.getText() + "/Seasons").listFiles();
+        ArrayList<String> seasonTitles = new ArrayList<>();
+        for (File seasonFile:seasonFiles) {
+            seasonTitles.add(seasonFile.getName());
+        }
+        ChangeSeason.getItems().clear();
+        ChangeSeason.getItems().addAll(seasonTitles);
+    }
+
+    public void fillCharacterList(){
+        ArrayList<String> options = new ArrayList<>();
+        options.add("Bayonetta");
+        options.add("Falcon");
+        options.add("Cloud");
+        options.add("DeDeDe");
+        options.add("Diddy");
+        options.add("DK");
+        options.add("DrMario");
+        options.add("DuckHunt");
+        options.add("Falco");
+        options.add("Fox");
+        options.add("GameAndWatch");
+        options.add("Ganon");
+        options.add("Greninja");
+        options.add("Ike");
+        options.add("Corrin");
+        options.add("Kirby");
+        options.add("Bowser");
+        options.add("BowserJr");
+        options.add("Link");
+        options.add("LittleMac");
+        options.add("Charizard");
+        options.add("Lucario");
+        options.add("Lucas");
+        options.add("Lucina");
+        options.add("Luigi");
+        options.add("Mario");
+        options.add("Marth");
+        options.add("MetaKnight");
+        options.add("MewTwo");
+        options.add("MiiBrawler");
+        options.add("MiiGunner");
+        options.add("MiiSwordfighter");
+        options.add("Villager");
+        options.add("Ness");
+        options.add("Pacman");
+        options.add("Palutena");
+        options.add("Peach");
+        options.add("Pikachu");
+        options.add("Olimar");
+        options.add("Pit");
+        options.add("DarkPit");
+        options.add("JigglyPuff");
+        options.add("Robin");
+        options.add("MegaMan");
+        options.add("Rob");
+        options.add("Rosalina");
+        options.add("Roy");
+        options.add("Ryu");
+        options.add("Samus");
+        options.add("Sheik");
+        options.add("Shulk");
+        options.add("Sonic");
+        options.add("ZeroSuitSamus");
+        options.add("ToonLink");
+        options.add("Wario");
+        options.add("WiiFit");
+        options.add("Yoshi");
+        options.add("Zelda");
+
+        Collections.sort(options);
+        FirstCharacter.getItems().addAll(options);
+        SecondCharacter.getItems().addAll(options);
+        ThirdCharacter.getItems().addAll(options);
     }
 
     public void createSeason(){
@@ -121,7 +199,7 @@ public class StartScreenController implements Initializable{
         if(newSeasonTitle.getText() != null) {
             String seasonTitle = newSeasonTitle.getText();
             try {
-                FileWriter fw = new FileWriter("Data/" + game + "/Seasons/" + seasonTitle);
+                FileWriter fw = new FileWriter("Data/" + game + "/Seasons/" + seasonTitle + ".csv");
                 BufferedWriter bw = new BufferedWriter(fw);
                 bw.write(seasonTitle);
                 bw.close();
@@ -130,19 +208,485 @@ public class StartScreenController implements Initializable{
                 System.out.println("couldn't create season");
             }
         }
+        updateSeasonList();
     }
 
     public void changeSeason(){
-        //todo update the top ten with the new season
+        Season newSeason = getSeason(CurrentGame.getText(),ChangeSeason.getValue());
+        CurrentSeason.setText(newSeason.name);
+        updateCharactersAndPlacings();
+        updateTopTen();
+        fillPlayerBox();
     }
 
-    public void addTournament(){
-        String game = CurrentGame.getText();
-        String seasonTitle = CurrentSeason.getText();
+    public void changeGame(){
+        //Todo
+    }
+
+    public void updateTopTen(){
+        ArrayList<Player> players = getSeason(CurrentGame.getText(),CurrentSeason.getText()).orderedList();
+        clearTable();
+        PlayerName10.setText(players.get(9).tag);
+        PlayerName9.setText(players.get(8).tag);
+        PlayerName8.setText(players.get(7).tag);
+        PlayerName7.setText(players.get(6).tag);
+        PlayerName6.setText(players.get(5).tag);
+        PlayerName5.setText(players.get(4).tag);
+        PlayerName4.setText(players.get(3).tag);
+        PlayerName3.setText(players.get(2).tag);
+        PlayerName2.setText(players.get(1).tag);
+        PlayerName1.setText(players.get(0).tag);
+    }
+
+    private void updateCharactersAndPlacings(){
+        Season season = getSeason(CurrentGame.getText(),CurrentSeason.getText());
+        Player p1 = season.orderedList().get(0);
+        if(p1.tag.equals("")){
+            Characters11.setImage(null);
+            Characters12.setImage(null);
+            Characters13.setImage(null);
+            FirstP1.setText(null);
+            SecondP1.setText(null);
+            ThirdP1.setText(null);
+        } else{
+            if(p1.getCharacters().size() > 1){
+                Characters12.setImage(getCharacterImage(p1.getCharacters().get(1)));
+            } else {
+                Characters12.setImage(null);
+            }
+            if(p1.getCharacters().size() > 2){
+                Characters13.setImage(getCharacterImage(p1.getCharacters().get(2)));
+            } else {
+                Characters13.setImage(null);
+            }
+            Characters11.setImage(getCharacterImage(p1.getCharacters().get(0)));
+            // null for now
+            FirstP1.setText(null);
+            SecondP1.setText(null);
+            ThirdP1.setText(null);
+        }
+        Player p2 = season.orderedList().get(1);
+        if(p2.tag.equals("")){
+            Characters21.setImage(null);
+            Characters22.setImage(null);
+            Characters23.setImage(null);
+            FirstP2.setText(null);
+            SecondP2.setText(null);
+            ThirdP2.setText(null);
+        } else{
+            Characters21.setImage(getCharacterImage(p2.getCharacters().get(0)));
+            if(p2.getCharacters().size() > 1){
+                Characters22.setImage(getCharacterImage(p2.getCharacters().get(1)));
+            } else {
+                Characters22.setImage(null);
+            }
+            if(p2.getCharacters().size() > 2){
+                Characters23.setImage(getCharacterImage(p2.getCharacters().get(2)));
+            } else {
+                Characters23.setImage(null);
+            }
+            //null for now
+            FirstP2.setText(null);
+            SecondP2.setText(null);
+            ThirdP2.setText(null);
+        }
+        Player p3 = season.orderedList().get(2);
+        if(p3.tag.equals("")){
+            Characters31.setImage(null);
+            Characters32.setImage(null);
+            Characters33.setImage(null);
+            FirstP3.setText(null);
+            SecondP3.setText(null);
+            ThirdP3.setText(null);
+        } else{
+            Characters31.setImage(getCharacterImage(p3.getCharacters().get(0)));
+            if(p3.getCharacters().size() > 1){
+                Characters32.setImage(getCharacterImage(p3.getCharacters().get(1)));
+            } else {
+                Characters32.setImage(null);
+            }
+            if(p3.getCharacters().size() > 2){
+                Characters33.setImage(getCharacterImage(p3.getCharacters().get(2)));
+            } else {
+                Characters33.setImage(null);
+            }
+            // null for now
+            FirstP3.setText(null);
+            SecondP3.setText(null);
+            ThirdP3.setText(null);
+        }
+        Player p4 = season.orderedList().get(3);
+        if(p4.tag.equals("")){
+            Characters41.setImage(null);
+            Characters42.setImage(null);
+            Characters43.setImage(null);
+            FirstP4.setText(null);
+            SecondP4.setText(null);
+            ThirdP4.setText(null);
+        } else{
+            Characters41.setImage(getCharacterImage(p4.getCharacters().get(0)));
+            if(p4.getCharacters().size() > 1){
+                Characters42.setImage(getCharacterImage(p4.getCharacters().get(1)));
+            } else {
+                Characters42.setImage(null);
+            }
+            if(p4.getCharacters().size() > 2){
+                Characters43.setImage(getCharacterImage(p4.getCharacters().get(2)));
+            } else {
+                Characters43.setImage(null);
+            }
+            //null for now
+            FirstP4.setText(null);
+            SecondP4.setText(null);
+            ThirdP4.setText(null);
+        }
+        Player p5 = season.orderedList().get(4);
+        if(p5.tag.equals("")){
+            Characters51.setImage(null);
+            Characters52.setImage(null);
+            Characters53.setImage(null);
+            FirstP5.setText(null);
+            SecondP5.setText(null);
+            ThirdP5.setText(null);
+        } else{
+            Characters51.setImage(getCharacterImage(p5.getCharacters().get(0)));
+            if(p5.getCharacters().size() > 1){
+                Characters52.setImage(getCharacterImage(p5.getCharacters().get(1)));
+            } else {
+                Characters52.setImage(null);
+            }
+            if(p5.getCharacters().size() > 2){
+                Characters53.setImage(getCharacterImage(p5.getCharacters().get(2)));
+            } else {
+                Characters53.setImage(null);
+            }
+            //null for now
+            FirstP5.setText(null);
+            SecondP5.setText(null);
+            ThirdP5.setText(null);
+        }
+        Player p6 = season.orderedList().get(5);
+        if(p6.tag.equals("")){
+            Characters61.setImage(null);
+            Characters62.setImage(null);
+            Characters63.setImage(null);
+            FirstP6.setText(null);
+            SecondP6.setText(null);
+            ThirdP6.setText(null);
+        } else{
+            Characters61.setImage(getCharacterImage(p6.getCharacters().get(0)));
+            if(p6.getCharacters().size() > 1){
+                Characters62.setImage(getCharacterImage(p6.getCharacters().get(1)));
+            } else {
+                Characters62.setImage(null);
+            }
+            if(p6.getCharacters().size() > 2){
+                Characters63.setImage(getCharacterImage(p6.getCharacters().get(2)));
+            } else {
+                Characters63.setImage(null);
+            }
+            //null for now
+            FirstP6.setText(null);
+            SecondP6.setText(null);
+            ThirdP6.setText(null);
+        }
+        Player p7 = season.orderedList().get(6);
+        if(p7.tag.equals("")){
+            Characters71.setImage(null);
+            Characters72.setImage(null);
+            Characters73.setImage(null);
+            FirstP7.setText(null);
+            SecondP7.setText(null);
+            ThirdP7.setText(null);
+        } else{
+            Characters71.setImage(getCharacterImage(p7.getCharacters().get(0)));
+            if(p7.getCharacters().size() > 1){
+                Characters72.setImage(getCharacterImage(p7.getCharacters().get(1)));
+            } else {
+                Characters72.setImage(null);
+            }
+            if(p7.getCharacters().size() > 2){
+                Characters73.setImage(getCharacterImage(p7.getCharacters().get(2)));
+            } else {
+                Characters73.setImage(null);
+            }
+            //null for now
+            FirstP7.setText(null);
+            SecondP7.setText(null);
+            ThirdP7.setText(null);
+        }
+        Player p8 = season.orderedList().get(7);
+        if(p8.tag.equals("")){
+            Characters81.setImage(null);
+            Characters82.setImage(null);
+            Characters83.setImage(null);
+            FirstP8.setText(null);
+            SecondP8.setText(null);
+            ThirdP8.setText(null);
+        } else{
+            Characters81.setImage(getCharacterImage(p8.getCharacters().get(0)));
+            if(p8.getCharacters().size() > 1){
+                Characters82.setImage(getCharacterImage(p8.getCharacters().get(1)));
+            } else {
+                Characters82.setImage(null);
+            }
+            if(p8.getCharacters().size() > 2){
+                Characters83.setImage(getCharacterImage(p8.getCharacters().get(2)));
+            } else {
+                Characters83.setImage(null);
+            }
+            // null for now
+            FirstP8.setText(null);
+            SecondP8.setText(null);
+            ThirdP8.setText(null);
+        }
+        Player p9 = season.orderedList().get(8);
+        if(p9.tag.equals("")){
+            Characters91.setImage(null);
+            Characters92.setImage(null);
+            Characters93.setImage(null);
+            FirstP9.setText(null);
+            SecondP9.setText(null);
+            ThirdP9.setText(null);
+        } else{
+            Characters91.setImage(getCharacterImage(p9.getCharacters().get(0)));
+            if(p9.getCharacters().size() > 1){
+                Characters92.setImage(getCharacterImage(p9.getCharacters().get(1)));
+            } else {
+                Characters92.setImage(null);
+            }
+            if(p9.getCharacters().size() > 2){
+                Characters93.setImage(getCharacterImage(p9.getCharacters().get(2)));
+            } else {
+                Characters93.setImage(null);
+            }
+            //null for now
+            FirstP9.setText(null);
+            SecondP9.setText(null);
+            ThirdP9.setText(null);
+        }
+        Player p10 = season.orderedList().get(9);
+        if(p10.tag.equals("")){
+            Characters101.setImage(null);
+            Characters102.setImage(null);
+            Characters103.setImage(null);
+            FirstP10.setText(null);
+            SecondP10.setText(null);
+            ThirdP10.setText(null);
+        } else{
+            Characters101.setImage(getCharacterImage(p10.getCharacters().get(0)));
+            if(p10.getCharacters().size() > 1){
+                Characters102.setImage(getCharacterImage(p10.getCharacters().get(1)));
+            } else {
+                Characters102.setImage(null);
+            }
+            if(p10.getCharacters().size() > 2){
+                Characters103.setImage(getCharacterImage(p10.getCharacters().get(2)));
+            } else {
+                Characters103.setImage(null);
+            }
+            //null for now
+            FirstP10.setText(null);
+            SecondP10.setText(null);
+            ThirdP10.setText(null);
+        }
+    }
+
+    private Image getCharacterImage(String character){
+        Image returnImage = Random;
+        if(character.equals("Bayonetta")){
+            returnImage = Bayo;
+        }
+        if(character.equals("Falcon")){
+            returnImage = Falcon;
+        }
+        if(character.equals("Cloud")){
+            returnImage = Cloud;
+        }
+        if(character.equals("DeDeDe")){
+            returnImage = DeDeDe;
+        }
+        if(character.equals("Diddy")){
+            returnImage = Diddy;
+        }
+        if(character.equals("DK")){
+            returnImage = DK;
+        }
+        if(character.equals("DrMario")){
+            returnImage = DrMario;
+        }
+        if(character.equals("DuckHunt")){
+            returnImage = DuckHunt;
+        }
+        if(character.equals("Falco")){
+            returnImage = Falco;
+        }
+        if(character.equals("Fox")){
+            returnImage = Fox;
+        }
+        if(character.equals("GameAndWatch")){
+            returnImage = GameAndWatch;
+        }
+        if(character.equals("Ganon")){
+            returnImage = Ganon;
+        }
+        if(character.equals("Greninja")){
+            returnImage = Greninja;
+        }
+        if(character.equals("Ike")){
+            returnImage = Ike;
+        }
+        if(character.equals("Corrin")){
+            returnImage = Corrin;
+        }
+        if(character.equals("Kirby")){
+            returnImage = Kirby;
+        }
+        if(character.equals("Bowser")){
+            returnImage = Bowser;
+        }
+        if(character.equals("BowserJr")){
+            returnImage = BowserJr;
+        }
+        if(character.equals("Link")){
+            returnImage = Link;
+        }
+        if(character.equals("LittleMac")){
+            returnImage = LittleMac;
+        }
+        if(character.equals("Charizard")){
+            returnImage = Charizard;
+        }
+        if(character.equals("Lucario")){
+            returnImage = Lucario;
+        }
+        if(character.equals("Lucas")){
+            returnImage = Lucas;
+        }
+        if(character.equals("Lucina")){
+            returnImage = Lucina;
+        }
+        if(character.equals("Luigi")){
+            returnImage = Luigi;
+        }
+        if(character.equals("Mario")){
+            returnImage = Mario;
+        }
+        if(character.equals("Marth")){
+            returnImage = Marth;
+        }
+        if(character.equals("MetaKnight")){
+            returnImage = MetaKnight;
+        }
+        if(character.equals("MewTwo")){
+            returnImage = MewTwo;
+        }
+        if(character.equals("MiiGunner")){
+            returnImage = Miigunner;
+        }
+        if(character.equals("MiiBrawler")){
+            returnImage = MiiBrawler;
+        }
+        if(character.equals("MiiSwordfighter")){
+            returnImage = MiiSwordfighter;
+        }
+        if(character.equals("Villager")){
+            returnImage = Villager;
+        }
+        if(character.equals("Ness")){
+            returnImage = Ness;
+        }
+        if(character.equals("Pacman")){
+            returnImage = Pacman;
+        }
+        if(character.equals("Palutena")){
+            returnImage = Palutena;
+        }
+        if(character.equals("Peach")){
+            returnImage = Peach;
+        }
+        if(character.equals("Pikachu")){
+            returnImage = Pikachu;
+        }
+        if(character.equals("Olimar")){
+            returnImage = Olimar;
+        }
+        if(character.equals("Pit")){
+            returnImage = Pit;
+        }
+        if(character.equals("DarkPit")){
+            returnImage = DarkPit;
+        }
+        if(character.equals("JigglyPuff")){
+            returnImage = JigglyPuff;
+        }
+        if(character.equals("Robin")){
+            returnImage = Robin;
+        }
+        if(character.equals("Rob")){
+            returnImage = Rob;
+        }
+        if(character.equals("MegaMan")){
+            returnImage = MegaMan;
+        }
+        if(character.equals("Rosalina")){
+            returnImage = Rosalina;
+        }
+        if(character.equals("Roy")){
+            returnImage = Roy;
+        }
+        if(character.equals("Ryu")){
+            returnImage = Ryu;
+        }
+        if(character.equals("Samus")){
+            returnImage = Samus;
+        }
+        if(character.equals("Sheik")){
+            returnImage = Sheik;
+        }
+        if(character.equals("Shulk")){
+            returnImage = Shulk;
+        }
+        if(character.equals("Sonic")){
+            returnImage = Sonic;
+        }
+        if(character.equals("ZeroSuitSamus")){
+            returnImage = ZeroSuitSamus;
+        }
+        if(character.equals("ToonLink")){
+            returnImage = ToonLink;
+        }
+        if(character.equals("Wario")){
+            returnImage = Wario;
+        }
+        if(character.equals("WiiFit")){
+            returnImage = WiiFit;
+        }
+        if(character.equals("Yoshi")){
+            returnImage = Yoshi;
+        }
+        if(character.equals("Zelda")){
+            returnImage = Zelda;
+        }
+        return returnImage;
+    }
+
+    private void clearTable(){
+        PlayerName1.setText("");
+        PlayerName2.setText("");
+        PlayerName3.setText("");
+        PlayerName4.setText("");
+        PlayerName5.setText("");
+        PlayerName6.setText("");
+        PlayerName7.setText("");
+        PlayerName8.setText("");
+        PlayerName9.setText("");
+        PlayerName10.setText("");
+    }
+
+    public Season getSeason(String game, String seasonTitle){
+        Season s = new Season("Could Not Find Season");
         try {
-            JSONObject tourney = (JSONObject) new JSONParser().parse(TournamentText.getText());
-            JSONObject tournament = (JSONObject) tourney.get("tournament");
-            String tournamentName = (String) tournament.get("name");
             FileReader fr = new FileReader("Data/" + game + "/Seasons/" + seasonTitle);
             BufferedReader br = new BufferedReader(fr);
             String line;
@@ -153,28 +697,113 @@ public class StartScreenController implements Initializable{
                 lineCnt++;
                 if(lineCnt == 2){
                     String[] tourneyList = line.split(",");
-                    for (String s:tourneyList) {
-                        tournamentList.add(s);
+                    for (String tournament:tourneyList) {
+                        tournamentList.add(tournament);
                     }
-                } else {
+                } else if(lineCnt > 2){
                     String[] thePlayer = line.split(",");
                     String[] theCharacters = thePlayer[2].split(".");
                     ArrayList<String> characters = new ArrayList<>();
-                    for (String s:theCharacters) {
-                        characters.add(s);
+                    for (String character:theCharacters) {
+                        characters.add(character);
                     }
                     Player p = new Player(thePlayer[0],Double.parseDouble(thePlayer[1]),characters,Double.parseDouble(thePlayer[3]));
+                    System.out.println(thePlayer[0] + "," + thePlayer[1] + "," + characters.get(0) + "," + thePlayer[3]);
                     players.add(p);
                 }
             }
-            Season s = new Season(seasonTitle,tournamentList,players);
-            if(!TournamentText.getText().isEmpty() && !tournamentList.contains(tournamentName)){
+            s = new Season(seasonTitle,tournamentList,players);
+        }catch (IOException ioe){
+            System.out.println("Could not read Season");
+        }
+        return s;
+    }
+
+    public void addTournament(){
+        String game = CurrentGame.getText();
+        String seasonTitle = CurrentSeason.getText();
+        try {
+            JSONObject tourney = (JSONObject) new JSONParser().parse(TournamentText.getText());
+            JSONObject tournament = (JSONObject) tourney.get("tournament");
+            String tournamentName = (String) tournament.get("name");
+            Season s = getSeason(game,seasonTitle);
+
+            if(!TournamentText.getText().isEmpty() && !s.tournaments.contains(tournamentName)){
                 s.addTournament(TournamentText.getText(), game);
                 s.writeSeason(game);
             }
 
-        }catch (IOException ioe){}
-        catch (ParseException pe){}
+        }catch (ParseException pe){}
+        updateTopTen();
+        updateCharactersAndPlacings();
+        TournamentText.clear();
     }
 
+    public void alterPlayer(){
+        Season s = getSeason(CurrentGame.getText(),CurrentSeason.getText());
+        for (Player p:s.players) {
+            if(p.tag.equals(SelectPlayer.getValue())){
+                ArrayList<String> newCharacterList = new ArrayList<>();
+                if(FirstCharacter.getValue() != null){
+                    newCharacterList.add(FirstCharacter.getValue());
+                }
+                if((SecondCharacter.getValue() != null) && (!FirstCharacter.getValue().equals(SecondCharacter.getValue()))){
+                    newCharacterList.add(SecondCharacter.getValue());
+                }
+                if((ThirdCharacter.getValue() != null) && (!SecondCharacter.getValue().equals(ThirdCharacter.getValue())) && (!FirstCharacter.getValue().equals(ThirdCharacter.getValue()))){
+                    newCharacterList.add(ThirdCharacter.getValue());
+                }
+                p.setCharacters(newCharacterList);
+            }
+        }
+        s.writeSeason(CurrentGame.getText());
+        updateCharactersAndPlacings();
+        updateTopTen();
+    }
+
+    public void addPlayer(){
+        Season s = getSeason(CurrentGame.getText(),CurrentSeason.getText());
+        ArrayList<String> newCharacterList = new ArrayList<>();
+        if(FirstCharacter.getValue() != null){
+            newCharacterList.add(FirstCharacter.getValue());
+        }
+        if((SecondCharacter.getValue() != null) && (!FirstCharacter.getValue().equals(SecondCharacter.getValue()))){
+            newCharacterList.add(SecondCharacter.getValue());
+        }
+        if((ThirdCharacter.getValue() != null) && (!SecondCharacter.getValue().equals(ThirdCharacter.getValue())) && (!FirstCharacter.getValue().equals(ThirdCharacter.getValue()))){
+            newCharacterList.add(ThirdCharacter.getValue());
+        }
+        Player newPlayer = new Player(NewPlayerTag.getText(), Double.parseDouble(PlayerScore.getText()), newCharacterList);
+        s.players.add(newPlayer);
+        s.writeSeason(CurrentGame.getText());
+        updateCharactersAndPlacings();
+        updateTopTen();
+    }
+
+    public void fillPlayerBox(){
+        SelectPlayer.getItems().clear();
+        Season s = getSeason(CurrentGame.getText(),CurrentSeason.getText());
+        ArrayList<String> players = new ArrayList<>();
+        for (Player p:s.players) {
+            players.add(p.tag);
+        }
+        SelectPlayer.getItems().addAll(players);
+    }
+
+    public void fillCharacterBoxes(){
+        Season s = getSeason(CurrentGame.getText(),CurrentSeason.getText());
+        for (Player p:s.players) {
+            if(p.getTag().equals(SelectPlayer.getValue())){
+                if((p.getCharacters().size() > 0) && (!p.getCharacters().get(0).equals(""))){
+                    FirstCharacter.setValue(p.characters.get(0));
+                }
+                if(p.getCharacters().size() > 1){
+                    SecondCharacter.setValue(p.characters.get(1));
+                }
+                if(p.getCharacters().size() > 2){
+                    ThirdCharacter.setValue(p.characters.get(2));
+                }
+            }
+        }
+    }
 }
