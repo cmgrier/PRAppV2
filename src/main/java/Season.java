@@ -82,7 +82,7 @@ public class Season {
             BseasonWriter.write(tournamentString);
             for (Player p:players) {
                 BseasonWriter.newLine();
-                String playerString = p.tag + "," + p.score + "," + convertCharacters(p.characters) + "," + p.initialScore;
+                String playerString = p.tag + "," + p.score + "," + p.characterString() + "," + p.initialScore;
                 BseasonWriter.write(playerString);
             }
             BseasonWriter.close();
@@ -119,13 +119,13 @@ public class Season {
         }catch (IOException ioe){}
     }
 
-    private String convertCharacters(ArrayList<String> characters){
-        String returnString = "";
-        for (String s:characters) {
-            returnString += s + ".";
-        }
-        return returnString;
-    }
+//    private String convertCharacters(ArrayList<String> characters){
+//        String returnString = "";
+//        for (String s:characters) {
+//            returnString += s + ".";
+//        }
+//        return returnString;
+//    }
 
     public HashMap<Integer, String> readPlayers(JSONObject tournament){
         HashMap<Integer, String> returnlist = new HashMap<>();
@@ -215,4 +215,104 @@ public class Season {
         return returnList;
     }
 
+    public void recalculateSeason(String game){
+        for (Player p : this.players) {
+            p.setScore(p.initialScore);
+        }
+        for (String tournament:this.tournaments) {
+            try {
+                FileReader fr = new FileReader("Data/" + game + "/Tournaments/CSVFiles/" + tournament + ".csv");
+                BufferedReader br = new BufferedReader(fr);
+                String line;
+                int lineCnt = 0;
+                ArrayList<Match> matches = new ArrayList<>();
+                while((line = br.readLine()) != null){
+                    lineCnt++;
+                    String[] theMatch = line.split(",");
+                    if(lineCnt > 1){
+                        Match match = new Match(theMatch[0], Integer.parseInt(theMatch[1]), theMatch[2], Integer.parseInt(theMatch[3]));
+                        matches.add(match);
+                    }
+                }
+                br.close();
+                fr.close();
+                for (Match m:matches) {
+                    Player p1 = new Player("null", 0);
+                    Player p2 = new Player("null", 0);
+                    for (Player p:players) {
+                        if(p.getTag().equals(m.player1Tag)){
+                            p1 = p;
+                        }
+                        if(p.getTag().equals(m.player2Tag)){
+                            p2 = p;
+                        }
+                    }
+                    if(p1.getTag().equals("null") || p2.getTag().equals("null")){
+                        System.out.println("Error Finding Player");
+                    }
+                    if(p1.getTag().equals(m.getWinner())){
+                        p1.updateScores(p2, true);
+                    } else {
+                        p2.updateScores(p1, true);
+                    }
+                    for (Player p:this.players) {
+                        if(p.getTag().equals(p1.tag)){
+                            p.setScore(p1.score);
+                        }
+                        if(p.getTag().equals(p2.tag)){
+                            p.setScore(p2.score);
+                        }
+                    }
+                }
+            }catch (IOException ioe){
+                System.out.println("Could not read CSV file");
+            }
+            writeSeason(game);
+        }
+    }
+
+    public ArrayList<String> getPlacings(String game){
+        ArrayList<String> placings = new ArrayList<>();
+        try {
+            String firstPlacers = "";
+            String secondPlacers = "";
+            String thirdPlacers = "";
+            for (String tournament:tournaments) {
+                FileReader fr = new FileReader("Data/" + game + "/Tournaments/JSONFiles/" + tournament + ".json");
+                BufferedReader br = new BufferedReader(fr);
+                String tournamentString = br.readLine();
+                br.close();
+                fr.close();
+                JSONObject object = (JSONObject) new JSONParser().parse(tournamentString);
+                JSONObject theTournament = (JSONObject) object.get("tournament");
+                JSONArray participants = (JSONArray) theTournament.get("participants");
+                String firstPlace = "";
+                String secondPlace = "";
+                String thirdPlace = "";
+                for (Object participant:participants) {
+                    JSONObject player = (JSONObject) participant;
+                    if(((String) player.get("final_rank")).equals("1")){
+                        firstPlace = (String) player.get("display_name");
+                    }
+                    if(player.get("final_rank").equals("2")){
+                        secondPlace = (String) player.get("display_name");
+                    }
+                    if(player.get("final_rank").equals("3")){
+                        thirdPlace = (String) player.get("display_name");
+                    }
+                }
+                firstPlacers = firstPlacers + "," + firstPlace;
+                secondPlacers = secondPlacers + "," + secondPlace;
+                thirdPlacers = thirdPlacers + "," + thirdPlace;
+            }
+            placings.add(firstPlacers);
+            placings.add(secondPlacers);
+            placings.add(thirdPlacers);
+        } catch (IOException ioe){
+            System.out.println("Could not read JSON Files");
+        } catch (ParseException pe){
+            System.out.println("Could not parse tournament");
+        }
+        return placings;
+    }
 }

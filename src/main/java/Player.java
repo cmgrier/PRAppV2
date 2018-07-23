@@ -62,7 +62,7 @@ public class Player implements Comparable<Player>{
         String tempString = "";
         for(int i = 0; i < charArray.size(); i++){
             char currentChar = charArray.get(i);
-            if(currentChar == '.'){
+            if(currentChar == ':'){
                 returnList.add(tempString);
                 tempString = "";
             } else {
@@ -81,7 +81,7 @@ public class Player implements Comparable<Player>{
     public String characterString(){
         String characters = "";
         for (String s:this.characters) {
-            characters = characters + s + ".";
+            characters = characters + s + ":";
         }
         if(characters.length()>1) {
             return characters.substring(0, characters.length() - 1);
@@ -113,5 +113,9 @@ public class Player implements Comparable<Player>{
 
     public void setScore(double score) {
         this.score = score;
+    }
+
+    public void setInitialScore(double initialScore){
+        this.initialScore = initialScore;
     }
 }

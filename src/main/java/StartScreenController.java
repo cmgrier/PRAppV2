@@ -19,16 +19,16 @@ import java.util.ResourceBundle;
 public class StartScreenController implements Initializable{
 
     @FXML
-    TextField TournamentText, newSeasonTitle, NewPlayerTag, PlayerScore;
+    TextField TournamentText, newSeasonTitle, NewPlayerTag, PlayerScore, ChangeTitle, InitialScore;
 
     @FXML
     Button AddTournamentButton, AddSeasonButton;
 
     @FXML
-    ComboBox<String> ChangeSeason, ChangeGame, SelectPlayer, FirstCharacter, SecondCharacter, ThirdCharacter;
+    ComboBox<String> ChangeSeason, ChangeGame, SelectPlayer, FirstCharacter, SecondCharacter, ThirdCharacter, DefaultSeasonBox;
 
     @FXML
-    Label CurrentGame, CurrentSeason;
+    Label CurrentGame, CurrentSeason, TitleText;
 
     @FXML
     Label FirstP1,SecondP1,ThirdP1,FirstP2,SecondP2,ThirdP2,FirstP3,SecondP3,ThirdP3,FirstP4,SecondP4,ThirdP4,FirstP5,SecondP5,ThirdP5,
@@ -110,11 +110,38 @@ public class StartScreenController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle rb){
         // do all things here that happen when this screen is started
+        readSettings();
         CurrentGame.setText(defaultGame);
         CurrentSeason.setText(defaultSeason);
         updateSeasonList();
         fillCharacterList();
         fillPlayerBox();
+        updateTopTen();
+        updateCharactersAndPlacings();
+    }
+
+    private void readSettings(){
+        try {
+            FileReader fr = new FileReader("Data/Settings");
+            BufferedReader br = new BufferedReader(fr);
+            int lineCnt = 0;
+            String line;
+            while((line = br.readLine()) != null){
+                lineCnt++;
+                if(lineCnt == 1){
+                    TitleText.setText(line);
+                }
+                if(lineCnt == 2){
+                    defaultSeason = line;
+                }
+                if(lineCnt == 3){
+                    defaultGame = line;
+                }
+            }
+            br.close();
+            fr.close();
+
+        }catch (IOException ioe){}
     }
 
     public void updateSeasonList(){
@@ -125,6 +152,8 @@ public class StartScreenController implements Initializable{
         }
         ChangeSeason.getItems().clear();
         ChangeSeason.getItems().addAll(seasonTitles);
+        DefaultSeasonBox.getItems().clear();
+        DefaultSeasonBox.getItems().addAll(seasonTitles);
     }
 
     public void fillCharacterList(){
@@ -188,6 +217,11 @@ public class StartScreenController implements Initializable{
         options.add("Yoshi");
         options.add("Zelda");
 
+        options.add("<Clear>");
+
+        FirstCharacter.getItems().clear();
+        SecondCharacter.getItems().clear();
+        ThirdCharacter.getItems().clear();
         Collections.sort(options);
         FirstCharacter.getItems().addAll(options);
         SecondCharacter.getItems().addAll(options);
@@ -259,6 +293,7 @@ public class StartScreenController implements Initializable{
             } else {
                 Characters13.setImage(null);
             }
+
             Characters11.setImage(getCharacterImage(p1.getCharacters().get(0)));
             // null for now
             FirstP1.setText(null);
@@ -702,13 +737,12 @@ public class StartScreenController implements Initializable{
                     }
                 } else if(lineCnt > 2){
                     String[] thePlayer = line.split(",");
-                    String[] theCharacters = thePlayer[2].split(".");
+                    String[] theCharacters = thePlayer[2].split(":");
                     ArrayList<String> characters = new ArrayList<>();
                     for (String character:theCharacters) {
                         characters.add(character);
                     }
                     Player p = new Player(thePlayer[0],Double.parseDouble(thePlayer[1]),characters,Double.parseDouble(thePlayer[3]));
-                    System.out.println(thePlayer[0] + "," + thePlayer[1] + "," + characters.get(0) + "," + thePlayer[3]);
                     players.add(p);
                 }
             }
@@ -744,21 +778,36 @@ public class StartScreenController implements Initializable{
         for (Player p:s.players) {
             if(p.tag.equals(SelectPlayer.getValue())){
                 ArrayList<String> newCharacterList = new ArrayList<>();
-                if(FirstCharacter.getValue() != null){
+                if((FirstCharacter.getValue() != null) || (!FirstCharacter.getValue().equals("<Clear>"))){
                     newCharacterList.add(FirstCharacter.getValue());
+                    System.out.println(FirstCharacter.getValue());
                 }
-                if((SecondCharacter.getValue() != null) && (!FirstCharacter.getValue().equals(SecondCharacter.getValue()))){
+                if(((SecondCharacter.getValue() != null) || (!FirstCharacter.getValue().equals("<Clear>"))) && (!FirstCharacter.getValue().equals(SecondCharacter.getValue()))){
                     newCharacterList.add(SecondCharacter.getValue());
+                    System.out.println(SecondCharacter.getValue());
                 }
-                if((ThirdCharacter.getValue() != null) && (!SecondCharacter.getValue().equals(ThirdCharacter.getValue())) && (!FirstCharacter.getValue().equals(ThirdCharacter.getValue()))){
+                if(((ThirdCharacter.getValue() != null) || (!FirstCharacter.getValue().equals("<Clear>"))) && (!SecondCharacter.getValue().equals(ThirdCharacter.getValue())) && (!FirstCharacter.getValue().equals(ThirdCharacter.getValue()))){
                     newCharacterList.add(ThirdCharacter.getValue());
+                    System.out.println(ThirdCharacter.getValue());
                 }
+                newCharacterList.remove("<Clear>");
+                newCharacterList.remove(null);
+                newCharacterList.remove("First Character");
+                newCharacterList.remove("Second Character");
+                newCharacterList.remove("Third Character");
                 p.setCharacters(newCharacterList);
+                if(PlayerScore.getText() != null){
+                    p.setScore(Double.parseDouble(PlayerScore.getText()));
+                }
+                if(InitialScore.getText() != null){
+                    p.setInitialScore(Double.parseDouble(InitialScore.getText()));
+                }
             }
         }
         s.writeSeason(CurrentGame.getText());
         updateCharactersAndPlacings();
         updateTopTen();
+        fillCharacterList();
     }
 
     public void addPlayer(){
@@ -778,6 +827,7 @@ public class StartScreenController implements Initializable{
         s.writeSeason(CurrentGame.getText());
         updateCharactersAndPlacings();
         updateTopTen();
+        fillCharacterList();
     }
 
     public void fillPlayerBox(){
@@ -794,6 +844,9 @@ public class StartScreenController implements Initializable{
         Season s = getSeason(CurrentGame.getText(),CurrentSeason.getText());
         for (Player p:s.players) {
             if(p.getTag().equals(SelectPlayer.getValue())){
+                FirstCharacter.setValue("First Character");
+                SecondCharacter.setValue("Second Character");
+                ThirdCharacter.setValue("Third Character");
                 if((p.getCharacters().size() > 0) && (!p.getCharacters().get(0).equals(""))){
                     FirstCharacter.setValue(p.characters.get(0));
                 }
@@ -803,7 +856,78 @@ public class StartScreenController implements Initializable{
                 if(p.getCharacters().size() > 2){
                     ThirdCharacter.setValue(p.characters.get(2));
                 }
+                PlayerScore.setText(String.valueOf(p.score));
+                InitialScore.setText(String.valueOf(p.initialScore));
+            }
+        }
+    }
+
+    public void alterSettings(){
+        try {
+            FileReader fr = new FileReader("Data/Settings");
+            BufferedReader br = new BufferedReader(fr);
+
+            String Title = "";
+            String DefaultSeason = "";
+            String DefaultGame = "";
+
+            int lineCnt = 0;
+            String line;
+            while((line = br.readLine()) != null){
+                lineCnt++;
+                if(lineCnt == 1){
+                    Title = line;
+                }
+                if(lineCnt == 2){
+                    DefaultSeason = line;
+                }
+                if(lineCnt == 3){
+                    DefaultGame = line;
+                }
+            }
+            br.close();
+            fr.close();
+
+            FileWriter fw = new FileWriter("Data/Settings");
+            BufferedWriter bw = new BufferedWriter(fw);
+            if(ChangeTitle.getText() != null){
+                bw.write(ChangeTitle.getText());
+            }else {
+                bw.write(Title);
+            }
+            bw.newLine();
+            if(DefaultSeasonBox.getValue() != null){
+                bw.write(DefaultSeasonBox.getValue());
+            }else {
+                bw.write(DefaultSeason);
+            }
+            bw.newLine();
+            bw.write(DefaultGame);
+            bw.close();
+            fw.close();
+
+        }catch (IOException ioe){}
+    }
+
+    public void recalculateSeason(){
+        Season s = getSeason(CurrentGame.getText(), CurrentSeason.getText());
+        s.recalculateSeason(CurrentGame.getText());
+        updateCharactersAndPlacings();
+        updateTopTen();
+    }
+
+    public void updatePlacings(){
+        Season s = getSeason(CurrentGame.getText(),CurrentSeason.getText());
+        ArrayList<String> placings = s.getPlacings(CurrentGame.getText());
+        String[] FirstPlacers = placings.get(0).split(",");
+        String[] SecondPlacers = placings.get(1).split(",");
+        String[] ThirdPlacers = placings.get(2).split(",");
+        for (Player p:s.players) {
+            if(PlayerName1.getText().equals(p.tag)){
+
+
             }
         }
     }
 }
+
