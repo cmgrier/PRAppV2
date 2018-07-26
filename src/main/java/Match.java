@@ -23,4 +23,12 @@ public class Match {
             return player2Tag;
         }
     }
+
+    public boolean containsPlayer(String player){
+        if(player.equals(player1Tag) || player.equals(player2Tag)){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

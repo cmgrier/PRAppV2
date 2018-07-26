@@ -47,11 +47,15 @@ public class Season {
             JSONWriter.close();
 
             tournaments.add(tournamentName);
-            //creates file for CSV where we will store name of tournament and all matches
+            //creates file for CSV where we will store name of tournament, top 3, and all matches
             String csvFileLocation = "Data/" + game + "/Tournaments/CSVFiles/" + tournamentName + ".csv";
             FileWriter CSVWriter = new FileWriter(csvFileLocation);
             BufferedWriter BCSVWriter = new BufferedWriter(CSVWriter);
             BCSVWriter.write(tournamentName);
+
+            String top3 = getPlacings(tournamentJSON);
+            BCSVWriter.newLine();
+            BCSVWriter.write(top3);
 
             //gets matches from JSON file and writes them into CSV
             ArrayList<Match> matches = new ArrayList<>();
@@ -64,10 +68,6 @@ public class Season {
             CSVWriter.close();
 
             String seasonFileLocation = "Data/" + game + "/Seasons/" + this.name;
-//            FileReader seasonReader = new FileReader(seasonFileLocation);
-//            BufferedReader BseasonReader = new BufferedReader(seasonReader);
-//            BseasonReader.close();
-//            seasonReader.close();
 
             FileWriter seasonWriter = new FileWriter(seasonFileLocation);
             BufferedWriter BseasonWriter = new BufferedWriter(seasonWriter);
@@ -118,14 +118,6 @@ public class Season {
             fw.close();
         }catch (IOException ioe){}
     }
-
-//    private String convertCharacters(ArrayList<String> characters){
-//        String returnString = "";
-//        for (String s:characters) {
-//            returnString += s + ".";
-//        }
-//        return returnString;
-//    }
 
     public HashMap<Integer, String> readPlayers(JSONObject tournament){
         HashMap<Integer, String> returnlist = new HashMap<>();
@@ -229,7 +221,7 @@ public class Season {
                 while((line = br.readLine()) != null){
                     lineCnt++;
                     String[] theMatch = line.split(",");
-                    if(lineCnt > 1){
+                    if(lineCnt > 2){
                         Match match = new Match(theMatch[0], Integer.parseInt(theMatch[1]), theMatch[2], Integer.parseInt(theMatch[3]));
                         matches.add(match);
                     }
@@ -271,48 +263,85 @@ public class Season {
         }
     }
 
-    public ArrayList<String> getPlacings(String game){
-        ArrayList<String> placings = new ArrayList<>();
+    public String getPlacings(String tournamentString){
+        String top3 = "";
         try {
-            String firstPlacers = "";
-            String secondPlacers = "";
-            String thirdPlacers = "";
-            for (String tournament:tournaments) {
-                FileReader fr = new FileReader("Data/" + game + "/Tournaments/JSONFiles/" + tournament + ".json");
-                BufferedReader br = new BufferedReader(fr);
-                String tournamentString = br.readLine();
-                br.close();
-                fr.close();
-                JSONObject object = (JSONObject) new JSONParser().parse(tournamentString);
-                JSONObject theTournament = (JSONObject) object.get("tournament");
-                JSONArray participants = (JSONArray) theTournament.get("participants");
-                String firstPlace = "";
-                String secondPlace = "";
-                String thirdPlace = "";
-                for (Object participant:participants) {
-                    JSONObject player = (JSONObject) participant;
-                    if(((String) player.get("final_rank")).equals("1")){
-                        firstPlace = (String) player.get("display_name");
-                    }
-                    if(player.get("final_rank").equals("2")){
-                        secondPlace = (String) player.get("display_name");
-                    }
-                    if(player.get("final_rank").equals("3")){
-                        thirdPlace = (String) player.get("display_name");
-                    }
+            JSONObject object = (JSONObject) new JSONParser().parse(tournamentString);
+            JSONObject theTournament = (JSONObject) object.get("tournament");
+            JSONArray participants = (JSONArray) theTournament.get("participants");
+            String firstPlace = "";
+            String secondPlace = "";
+            String thirdPlace = "";
+            System.out.println(participants.size());
+            for (Object participant:participants) {
+                JSONObject obj = (JSONObject) participant;
+                JSONObject player = (JSONObject) obj.get("participant");
+                System.out.println((String) player.get("display_name"));
+                Long placement = (Long) player.get("final_rank");
+                int playerPlacement = placement.intValue();
+                System.out.println(playerPlacement);
+                if(playerPlacement == 1){
+                   firstPlace = (String) player.get("display_name");
                 }
-                firstPlacers = firstPlacers + "," + firstPlace;
-                secondPlacers = secondPlacers + "," + secondPlace;
-                thirdPlacers = thirdPlacers + "," + thirdPlace;
+                if(playerPlacement == 2){
+                    secondPlace = (String) player.get("display_name");
+                }
+                if(playerPlacement == 3){
+                    thirdPlace = (String) player.get("display_name");
+                }
             }
-            placings.add(firstPlacers);
-            placings.add(secondPlacers);
-            placings.add(thirdPlacers);
-        } catch (IOException ioe){
-            System.out.println("Could not read JSON Files");
+            top3 = firstPlace + "," + secondPlace + "," + thirdPlace;
         } catch (ParseException pe){
             System.out.println("Could not parse tournament");
         }
-        return placings;
+        return top3;
+    }
+
+    public HashMap<String,Integer[]> getSetCounts(String player, String game){
+        HashMap<String,Integer[]> SetCounts = new HashMap<>();
+        for (String tournament:tournaments) {
+            try {
+                String fileLocation = "Data/" + game + "/Tournaments/CSVFiles/" + tournament + ".csv";
+                FileReader fr = new FileReader(fileLocation);
+                BufferedReader br = new BufferedReader(fr);
+                String line;
+                int lineCnt = 0;
+                while((line = br.readLine()) != null){
+                    lineCnt++;
+                    if(lineCnt > 2){
+                        String[] matchString = line.split(",");
+                        Match match = new Match(matchString[0],Integer.parseInt(matchString[1]),matchString[2],Integer.parseInt(matchString[3]));
+                        if(match.containsPlayer(player)){
+                            String otherPlayer;
+                            if(match.player1Tag.equals(player)){
+                                otherPlayer = match.player2Tag;
+                            } else{
+                                otherPlayer = match.player1Tag;
+                            }
+                            if(SetCounts.containsKey(otherPlayer)){
+                                Integer[] SetCount = SetCounts.get(otherPlayer);
+                                if(match.getWinner().equals(player)){
+                                    SetCount[0] = SetCount[0] + 1;
+                                } else {
+                                    SetCount[1] = SetCount[1] + 1;
+                                }
+                                SetCounts.replace(otherPlayer,SetCount);
+                            } else{
+                                Integer[] NewSetCount = new Integer[2];
+                                if(match.getWinner().equals(player)){
+                                    NewSetCount[0] = 1;
+                                    NewSetCount[1] = 0;
+                                } else {
+                                    NewSetCount[0] = 0;
+                                    NewSetCount[1] = 1;
+                                }
+                                SetCounts.put(otherPlayer,NewSetCount);
+                            }
+                        }
+                    }
+                }
+            }catch (IOException ioe){}
+        }
+        return SetCounts;
     }
 }

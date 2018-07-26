@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
@@ -16,12 +17,12 @@
 
 <AnchorPane prefHeight="900.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StartScreenController">
    <children>
-      <GridPane gridLinesVisible="true" layoutX="250.0" layoutY="161.0" prefHeight="650.0" prefWidth="1000.0">
+      <GridPane gridLinesVisible="true" layoutX="250.0" layoutY="161.0" prefHeight="650.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="698.0" minWidth="10.0" prefWidth="170.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="698.0" minWidth="10.0" prefWidth="530.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="698.0" minWidth="10.0" prefWidth="450.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints maxHeight="100.0" minHeight="25.0" prefHeight="50.0" vgrow="SOMETIMES" />
@@ -706,5 +707,22 @@
       <Label layoutX="1172.0" layoutY="78.0" text="Current Game" />
       <Label fx:id="CurrentSeason" layoutX="1295.0" layoutY="37.0" text="Season" />
       <Label fx:id="CurrentGame" layoutX="1300.0" layoutY="78.0" text="Game" />
+      <Label layoutX="1258.0" layoutY="161.0" text="Player Statistics">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="SelectPlayerStatistics" layoutX="1268.0" layoutY="206.0" onAction="#updatePlayerStatistics" prefWidth="150.0" promptText="Select Player" />
+      <ListView fx:id="SetList" layoutX="1239.0" layoutY="263.0" prefHeight="257.0" prefWidth="200.0" />
+      <Label fx:id="WinLoss" alignment="CENTER" layoutX="1258.0" layoutY="533.0" prefHeight="27.0" prefWidth="163.0" text="Wins vs Losses">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="WinPercentage" alignment="CENTER" layoutX="1258.0" layoutY="560.0" prefHeight="27.0" prefWidth="163.0" text="Win Percentage">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

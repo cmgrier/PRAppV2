@@ -1,9 +1,6 @@
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.json.simple.JSONObject;
@@ -12,9 +9,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class StartScreenController implements Initializable{
 
@@ -25,10 +20,13 @@ public class StartScreenController implements Initializable{
     Button AddTournamentButton, AddSeasonButton;
 
     @FXML
-    ComboBox<String> ChangeSeason, ChangeGame, SelectPlayer, FirstCharacter, SecondCharacter, ThirdCharacter, DefaultSeasonBox;
+    ComboBox<String> ChangeSeason, ChangeGame, SelectPlayer, SelectPlayerStatistics, FirstCharacter, SecondCharacter, ThirdCharacter, DefaultSeasonBox;
 
     @FXML
-    Label CurrentGame, CurrentSeason, TitleText;
+    Label CurrentGame, CurrentSeason, TitleText, WinLoss, WinPercentage;
+
+    @FXML
+    ListView SetList;
 
     @FXML
     Label FirstP1,SecondP1,ThirdP1,FirstP2,SecondP2,ThirdP2,FirstP3,SecondP3,ThirdP3,FirstP4,SecondP4,ThirdP4,FirstP5,SecondP5,ThirdP5,
@@ -118,6 +116,8 @@ public class StartScreenController implements Initializable{
         fillPlayerBox();
         updateTopTen();
         updateCharactersAndPlacings();
+        WinLoss.setVisible(false);
+        WinPercentage.setVisible(false);
     }
 
     private void readSettings(){
@@ -525,6 +525,7 @@ public class StartScreenController implements Initializable{
             SecondP10.setText(null);
             ThirdP10.setText(null);
         }
+        updatePlacings();
     }
 
     private Image getCharacterImage(String character){
@@ -832,12 +833,14 @@ public class StartScreenController implements Initializable{
 
     public void fillPlayerBox(){
         SelectPlayer.getItems().clear();
+        SelectPlayerStatistics.getItems().clear();
         Season s = getSeason(CurrentGame.getText(),CurrentSeason.getText());
         ArrayList<String> players = new ArrayList<>();
         for (Player p:s.players) {
             players.add(p.tag);
         }
         SelectPlayer.getItems().addAll(players);
+        SelectPlayerStatistics.getItems().addAll(players);
     }
 
     public void fillCharacterBoxes(){
@@ -918,16 +921,183 @@ public class StartScreenController implements Initializable{
 
     public void updatePlacings(){
         Season s = getSeason(CurrentGame.getText(),CurrentSeason.getText());
-        ArrayList<String> placings = s.getPlacings(CurrentGame.getText());
-        String[] FirstPlacers = placings.get(0).split(",");
-        String[] SecondPlacers = placings.get(1).split(",");
-        String[] ThirdPlacers = placings.get(2).split(",");
-        for (Player p:s.players) {
-            if(PlayerName1.getText().equals(p.tag)){
 
+        String P1 = PlayerName1.getText();
+        Integer[] p1Placings = getPlayerPlacings(s,P1);
+        if(p1Placings[0] != 0){
+            FirstP1.setText(String.valueOf(p1Placings[0]));
+        }
+        if(p1Placings[1] != 0){
+            SecondP1.setText(String.valueOf(p1Placings[1]));
+        }
+        if(p1Placings[2] != 0){
+            ThirdP1.setText(String.valueOf(p1Placings[2]));
+        }
 
-            }
+        String P2 = PlayerName2.getText();
+        Integer[] p2Placings = getPlayerPlacings(s,P2);
+        if(p2Placings[0] != 0){
+            FirstP2.setText(String.valueOf(p2Placings[0]));
+        }
+        if(p2Placings[1] != 0){
+            SecondP2.setText(String.valueOf(p2Placings[1]));
+        }
+        if(p2Placings[2] != 0){
+            ThirdP2.setText(String.valueOf(p2Placings[2]));
+        }
+
+        String P3 = PlayerName3.getText();
+        Integer[] p3Placings = getPlayerPlacings(s,P3);
+        if(p3Placings[0] != 0){
+            FirstP3.setText(String.valueOf(p3Placings[0]));
+        }
+        if(p3Placings[1] != 0){
+            SecondP3.setText(String.valueOf(p3Placings[1]));
+        }
+        if(p3Placings[2] != 0){
+            ThirdP3.setText(String.valueOf(p3Placings[2]));
+        }
+
+        String P4 = PlayerName4.getText();
+        Integer[] p4Placings = getPlayerPlacings(s,P4);
+        if(p4Placings[0] != 0){
+            FirstP4.setText(String.valueOf(p4Placings[0]));
+        }
+        if(p4Placings[1] != 0){
+            SecondP4.setText(String.valueOf(p4Placings[1]));
+        }
+        if(p4Placings[2] != 0){
+            ThirdP4.setText(String.valueOf(p4Placings[2]));
+        }
+
+        String P5 = PlayerName5.getText();
+        Integer[] p5Placings = getPlayerPlacings(s,P5);
+        if(p5Placings[0] != 0){
+            FirstP5.setText(String.valueOf(p5Placings[0]));
+        }
+        if(p5Placings[1] != 0){
+            SecondP5.setText(String.valueOf(p5Placings[1]));
+        }
+        if(p5Placings[2] != 0){
+            ThirdP5.setText(String.valueOf(p5Placings[2]));
+        }
+
+        String P6 = PlayerName6.getText();
+        Integer[] p6Placings = getPlayerPlacings(s,P6);
+        if(p6Placings[0] != 0){
+            FirstP6.setText(String.valueOf(p6Placings[0]));
+        }
+        if(p6Placings[1] != 0){
+            SecondP6.setText(String.valueOf(p6Placings[1]));
+        }
+        if(p6Placings[2] != 0){
+            ThirdP6.setText(String.valueOf(p6Placings[2]));
+        }
+
+        String P7 = PlayerName7.getText();
+        Integer[] p7Placings = getPlayerPlacings(s,P7);
+        if(p7Placings[0] != 0){
+            FirstP7.setText(String.valueOf(p7Placings[0]));
+        }
+        if(p7Placings[1] != 0){
+            SecondP7.setText(String.valueOf(p7Placings[1]));
+        }
+        if(p7Placings[2] != 0){
+            ThirdP7.setText(String.valueOf(p7Placings[2]));
+        }
+
+        String P8 = PlayerName8.getText();
+        Integer[] p8Placings = getPlayerPlacings(s,P8);
+        if(p8Placings[0] != 0){
+            FirstP8.setText(String.valueOf(p8Placings[0]));
+        }
+        if(p8Placings[1] != 0){
+            SecondP8.setText(String.valueOf(p8Placings[1]));
+        }
+        if(p8Placings[2] != 0){
+            ThirdP8.setText(String.valueOf(p8Placings[2]));
+        }
+
+        String P9 = PlayerName9.getText();
+        Integer[] p9Placings = getPlayerPlacings(s,P9);
+        if(p9Placings[0] != 0){
+            FirstP9.setText(String.valueOf(p9Placings[0]));
+        }
+        if(p9Placings[1] != 0){
+            SecondP9.setText(String.valueOf(p9Placings[1]));
+        }
+        if(p9Placings[2] != 0){
+            ThirdP2.setText(String.valueOf(p9Placings[2]));
+        }
+
+        String P10 = PlayerName10.getText();
+        Integer[] p10Placings = getPlayerPlacings(s,P10);
+        if(p10Placings[0] != 0){
+            FirstP10.setText(String.valueOf(p10Placings[0]));
+        }
+        if(p10Placings[1] != 0){
+            SecondP10.setText(String.valueOf(p10Placings[1]));
+        }
+        if(p10Placings[2] != 0){
+            ThirdP10.setText(String.valueOf(p10Placings[2]));
         }
     }
-}
 
+    private Integer[] getPlayerPlacings(Season s, String playerTag){
+        Integer[] placings = new Integer[3];
+        placings[0] = 0;
+        placings[1] = 0;
+        placings[2] = 0;
+        for (String tournament:s.tournaments) {
+            try {
+                String fileLocation = "Data/" + CurrentGame.getText() + "/Tournaments/CSVFiles/" + tournament + ".csv";
+                FileReader fr = new FileReader(fileLocation);
+                BufferedReader br = new BufferedReader(fr);
+                int lineCnt = 0;
+                String line = "";
+                while((line = br.readLine()) != null){
+                    lineCnt++;
+                    if(lineCnt == 2){
+                        String[] top3 = line.split(",");
+                        if(playerTag.equals(top3[0])){
+                            placings[0] = placings[0] + 1;
+                        }
+                        if(playerTag.equals(top3[1])){
+                            placings[1] = placings[1] + 1;
+                        }
+                        if(playerTag.equals(top3[2])){
+                            placings[2] = placings[2] + 1;
+                        }
+                    }
+                }
+            }catch (IOException ioe){
+                System.out.println("Could not read Tournament");
+            }
+        }
+        return placings;
+    }
+
+    public void updatePlayerStatistics(){
+        String Player = SelectPlayerStatistics.getValue();
+        Season s = getSeason(CurrentGame.getText(),CurrentSeason.getText());
+        HashMap<String,Integer[]> Sets = s.getSetCounts(SelectPlayerStatistics.getValue(),CurrentGame.getText());
+        Set<String> opponents = Sets.keySet();
+        ArrayList<String> SetStrings = new ArrayList<>();
+        int wins = 0;
+        int losses = 0;
+        for (String opponent:opponents) {
+            Integer[] setCount = Sets.get(opponent);
+            String set = setCount[0] + " W " + setCount[1] + " L vs. " + opponent;
+            SetStrings.add(set);
+            wins = wins + setCount[0];
+            losses = losses + setCount[1];
+        }
+        SetList.getItems().clear();
+        SetList.getItems().addAll(SetStrings);
+        WinLoss.setVisible(true);
+        WinPercentage.setVisible(true);
+        WinLoss.setText(wins + "W - " + losses + "L");
+        double percentage = Math.round(((double) wins / (wins + losses)) * 100);
+        WinPercentage.setText(String.valueOf(percentage) + "%");
+    }
+}
