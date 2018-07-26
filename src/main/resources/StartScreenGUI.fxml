@@ -647,6 +647,7 @@
                         <Button fx:id="AddTournamentButton" layoutX="27.0" layoutY="81.0" mnemonicParsing="false" onAction="#addTournament" text="Add Tournament" />
                         <TextField fx:id="TournamentText" layoutX="20.0" layoutY="20.0" prefHeight="31.0" prefWidth="147.0" promptText="Paste JSON here" />
                         <Label layoutX="76.0" layoutY="14.0" />
+                        <ListView fx:id="TournamentList" layoutX="8.0" layoutY="143.0" prefHeight="200.0" prefWidth="170.0" />
                      </children>
                   </AnchorPane>
             </content>

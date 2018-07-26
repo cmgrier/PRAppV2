@@ -26,7 +26,7 @@ public class StartScreenController implements Initializable{
     Label CurrentGame, CurrentSeason, TitleText, WinLoss, WinPercentage;
 
     @FXML
-    ListView SetList;
+    ListView SetList, TournamentList;
 
     @FXML
     Label FirstP1,SecondP1,ThirdP1,FirstP2,SecondP2,ThirdP2,FirstP3,SecondP3,ThirdP3,FirstP4,SecondP4,ThirdP4,FirstP5,SecondP5,ThirdP5,
@@ -116,6 +116,7 @@ public class StartScreenController implements Initializable{
         fillPlayerBox();
         updateTopTen();
         updateCharactersAndPlacings();
+        updateTournamentList();
         WinLoss.setVisible(false);
         WinPercentage.setVisible(false);
     }
@@ -243,6 +244,7 @@ public class StartScreenController implements Initializable{
             }
         }
         updateSeasonList();
+        updateTournamentList();
     }
 
     public void changeSeason(){
@@ -251,6 +253,13 @@ public class StartScreenController implements Initializable{
         updateCharactersAndPlacings();
         updateTopTen();
         fillPlayerBox();
+        updateTournamentList();
+    }
+
+    public void updateTournamentList(){
+        TournamentList.getItems().clear();
+        Season s = getSeason(CurrentGame.getText(),CurrentSeason.getText());
+        TournamentList.getItems().addAll(s.tournaments);
     }
 
     public void changeGame(){
@@ -893,7 +902,7 @@ public class StartScreenController implements Initializable{
 
             FileWriter fw = new FileWriter("Data/Settings");
             BufferedWriter bw = new BufferedWriter(fw);
-            if(ChangeTitle.getText() != null){
+            if((ChangeTitle.getText() != null) || (!ChangeTitle.getText().equals(""))){
                 bw.write(ChangeTitle.getText());
             }else {
                 bw.write(Title);
