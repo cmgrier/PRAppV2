@@ -660,7 +660,10 @@
                         <Button fx:id="AddSeasonButton" layoutX="40.0" layoutY="543.0" mnemonicParsing="false" onAction="#createSeason" text="Add Season" />
                         <TextField fx:id="newSeasonTitle" layoutX="23.0" layoutY="497.0" prefHeight="31.0" prefWidth="133.0" promptText="New Season Title" />
                         <Button layoutX="32.0" layoutY="78.0" mnemonicParsing="false" onAction="#changeSeason" text="Change Season" />
-                        <Button layoutX="17.0" layoutY="378.0" mnemonicParsing="false" onAction="#recalculateSeason" text="Recalculate Season" />
+                        <Button layoutX="17.0" layoutY="427.0" mnemonicParsing="false" onAction="#recalculateSeason" text="Recalculate Season" />
+                        <ComboBox fx:id="BasePlayer" layoutX="18.0" layoutY="168.0" prefWidth="150.0" promptText="Base Player" />
+                        <ComboBox fx:id="MergePlayer" layoutX="18.0" layoutY="219.0" prefHeight="31.0" prefWidth="150.0" promptText="Merge Player" />
+                        <Button layoutX="28.0" layoutY="269.0" mnemonicParsing="false" onAction="#combinePlayers" text="Combine Players" />
                      </children>
                   </AnchorPane>
             </content>

@@ -159,8 +159,20 @@ public class Season {
             Integer Player2ID = Integer.parseInt(match.get("player2_id").toString());
             String matchScore = (String) match.get("scores_csv");
             String[] score = matchScore.split("-");
-            int player1wins = Integer.parseInt(score[0]);
-            int player2wins = Integer.parseInt(score[1]);
+            int player1wins = 0;
+            int player2wins = 0;
+            if(score.length == 2){
+                player1wins = Integer.parseInt(score[0]);
+                player2wins = Integer.parseInt(score[1]);
+            } else{
+                if(matchScore.equals("-1-0")){
+                    player1wins = -1;
+                    player2wins = 0;
+                } else {
+                    player1wins = 0;
+                    player2wins = -1;
+                }
+            }
             String Player1 = players.get(Player1ID);
             String Player2 = players.get(Player2ID);
             Match newMatch = new Match(Player1,player1wins,Player2,player2wins);
@@ -272,14 +284,14 @@ public class Season {
             String firstPlace = "";
             String secondPlace = "";
             String thirdPlace = "";
-            System.out.println(participants.size());
+            //System.out.println(participants.size());
             for (Object participant:participants) {
                 JSONObject obj = (JSONObject) participant;
                 JSONObject player = (JSONObject) obj.get("participant");
-                System.out.println((String) player.get("display_name"));
+                //System.out.println((String) player.get("display_name"));
                 Long placement = (Long) player.get("final_rank");
                 int playerPlacement = placement.intValue();
-                System.out.println(playerPlacement);
+                //System.out.println(playerPlacement);
                 if(playerPlacement == 1){
                    firstPlace = (String) player.get("display_name");
                 }
@@ -343,5 +355,55 @@ public class Season {
             }catch (IOException ioe){}
         }
         return SetCounts;
+    }
+
+    public void combinePlayers(String game, String basePlayer, String mergePlayer){
+        for (String tournament:tournaments) {
+            try {
+                String fileLocation = "Data/" + game + "/Tournaments/CSVFiles/" + tournament + ".csv";
+                FileReader fr = new FileReader(fileLocation);
+                BufferedReader br = new BufferedReader(fr);
+
+                FileWriter fw = new FileWriter(fileLocation);
+                BufferedWriter bw = new BufferedWriter(fw);
+
+                String line;
+                int lineCnt = 0;
+                while((line = br.readLine()) != null){
+                    lineCnt++;
+                    if(lineCnt > 2){
+                        String[] matchString = line.split(",");
+                        if(matchString[0].equals(mergePlayer) || matchString[2].equals(mergePlayer)){
+                            String newLine = line.replace(mergePlayer, basePlayer);
+                            bw.write(newLine);
+                            bw.newLine();
+                        } else {
+                            bw.write(line);
+                            bw.newLine();
+                        }
+                    } else {
+                        bw.write(line);
+                        bw.newLine();
+                    }
+                }
+                bw.flush();
+                bw.close();
+                fw.close();
+                br.close();
+                fr.close();
+
+                Player removePlayer = new Player("DNE",0);
+                for (Player p:players) {
+                    if(p.tag.equals(mergePlayer)){
+                        removePlayer = p;
+                    }
+                }
+                if(removePlayer.tag.equals(mergePlayer)){
+                    players.remove(removePlayer);
+                }
+                writeSeason(game);
+            } catch (IOException ioe) {
+            }
+        }
     }
 }

@@ -20,7 +20,7 @@ public class StartScreenController implements Initializable{
     Button AddTournamentButton, AddSeasonButton;
 
     @FXML
-    ComboBox<String> ChangeSeason, ChangeGame, SelectPlayer, SelectPlayerStatistics, FirstCharacter, SecondCharacter, ThirdCharacter, DefaultSeasonBox;
+    ComboBox<String> ChangeSeason, ChangeGame, SelectPlayer, SelectPlayerStatistics, FirstCharacter, SecondCharacter, ThirdCharacter, DefaultSeasonBox, BasePlayer, MergePlayer;
 
     @FXML
     Label CurrentGame, CurrentSeason, TitleText, WinLoss, WinPercentage;
@@ -780,6 +780,8 @@ public class StartScreenController implements Initializable{
         }catch (ParseException pe){}
         updateTopTen();
         updateCharactersAndPlacings();
+        updateTournamentList();
+        fillPlayerBox();
         TournamentText.clear();
     }
 
@@ -842,6 +844,8 @@ public class StartScreenController implements Initializable{
 
     public void fillPlayerBox(){
         SelectPlayer.getItems().clear();
+        BasePlayer.getItems().clear();
+        MergePlayer.getItems().clear();
         SelectPlayerStatistics.getItems().clear();
         Season s = getSeason(CurrentGame.getText(),CurrentSeason.getText());
         ArrayList<String> players = new ArrayList<>();
@@ -849,6 +853,8 @@ public class StartScreenController implements Initializable{
             players.add(p.tag);
         }
         SelectPlayer.getItems().addAll(players);
+        BasePlayer.getItems().addAll(players);
+        MergePlayer.getItems().addAll(players);
         SelectPlayerStatistics.getItems().addAll(players);
     }
 
@@ -1108,5 +1114,16 @@ public class StartScreenController implements Initializable{
         WinLoss.setText(wins + "W - " + losses + "L");
         double percentage = Math.round(((double) wins / (wins + losses)) * 100);
         WinPercentage.setText(String.valueOf(percentage) + "%");
+    }
+
+    public void combinePlayers(){
+        String basePlayer = BasePlayer.getValue();
+        String mergePlayer = MergePlayer.getValue();
+        Season s = getSeason(CurrentGame.getText(), CurrentSeason.getText());
+        s.combinePlayers(CurrentGame.getText(),basePlayer,mergePlayer);
+
+        updateTopTen();
+        updateCharactersAndPlacings();
+        fillPlayerBox();
     }
 }
