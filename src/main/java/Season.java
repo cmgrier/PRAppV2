@@ -363,10 +363,7 @@ public class Season {
                 String fileLocation = "Data/" + game + "/Tournaments/CSVFiles/" + tournament + ".csv";
                 FileReader fr = new FileReader(fileLocation);
                 BufferedReader br = new BufferedReader(fr);
-
-                FileWriter fw = new FileWriter(fileLocation);
-                BufferedWriter bw = new BufferedWriter(fw);
-
+                ArrayList<String> lines = new ArrayList<>();
                 String line;
                 int lineCnt = 0;
                 while((line = br.readLine()) != null){
@@ -375,22 +372,27 @@ public class Season {
                         String[] matchString = line.split(",");
                         if(matchString[0].equals(mergePlayer) || matchString[2].equals(mergePlayer)){
                             String newLine = line.replace(mergePlayer, basePlayer);
-                            bw.write(newLine);
-                            bw.newLine();
+                            lines.add(newLine);
                         } else {
-                            bw.write(line);
-                            bw.newLine();
+                            lines.add(line);
                         }
                     } else {
-                        bw.write(line);
-                        bw.newLine();
+                        lines.add(line);
                     }
                 }
-                bw.flush();
-                bw.close();
-                fw.close();
                 br.close();
                 fr.close();
+
+                FileWriter fw = new FileWriter(fileLocation);
+                BufferedWriter bw = new BufferedWriter(fw);
+
+                for (String newLine:lines) {
+                    bw.write(newLine);
+                    bw.newLine();
+                }
+
+                bw.close();
+                fw.close();
 
                 Player removePlayer = new Player("DNE",0);
                 for (Player p:players) {

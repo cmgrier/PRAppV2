@@ -22,7 +22,8 @@
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="698.0" minWidth="10.0" prefWidth="170.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="698.0" minWidth="10.0" prefWidth="450.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="698.0" minWidth="10.0" prefWidth="305.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="698.0" minWidth="10.0" prefWidth="150.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints maxHeight="100.0" minHeight="25.0" prefHeight="50.0" vgrow="SOMETIMES" />
@@ -631,9 +632,100 @@
                   <Insets left="225.0" />
                </GridPane.margin>
             </Label>
+            <Label prefHeight="35.0" prefWidth="100.0" text="Winrate" GridPane.columnIndex="4">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label fx:id="P1WR" text="P1WR" GridPane.columnIndex="4" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="P2WR" text="P2WR" GridPane.columnIndex="4" GridPane.rowIndex="2">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label fx:id="P3WR" text="P3WR" GridPane.columnIndex="4" GridPane.rowIndex="3">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label fx:id="P4WR" text="P4WR" GridPane.columnIndex="4" GridPane.rowIndex="4">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label fx:id="P5WR" text="P5WR" GridPane.columnIndex="4" GridPane.rowIndex="5">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label fx:id="P6WR" text="P6WR" GridPane.columnIndex="4" GridPane.rowIndex="6">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label fx:id="P7WR" text="P7WR" GridPane.columnIndex="4" GridPane.rowIndex="7">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label fx:id="P8WR" text="P8WR" GridPane.columnIndex="4" GridPane.rowIndex="8">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label fx:id="P9WR" text="P9WR" GridPane.columnIndex="4" GridPane.rowIndex="9">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label fx:id="P10WR" text="P10WR" GridPane.columnIndex="4" GridPane.rowIndex="10">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Label>
          </children>
       </GridPane>
-      <Label fx:id="TitleText" layoutX="250.0" layoutY="37.0" prefHeight="90.0" prefWidth="568.0" text="WPI Smash 4 PR">
+      <Label fx:id="TitleText" layoutX="250.0" layoutY="37.0" prefHeight="103.0" prefWidth="662.0" text="WPI Smash 4 PR">
          <font>
             <Font name="System Bold Italic" size="70.0" />
          </font>
@@ -728,5 +820,10 @@
             <Font size="18.0" />
          </font>
       </Label>
+      <Button layoutX="1114.0" layoutY="99.0" mnemonicParsing="false" onAction="#update" prefHeight="35.0" prefWidth="48.0" text="↻">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

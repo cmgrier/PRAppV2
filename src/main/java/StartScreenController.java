@@ -36,6 +36,9 @@ public class StartScreenController implements Initializable{
     Label PlayerName1,PlayerName2,PlayerName3,PlayerName4,PlayerName5,PlayerName6,PlayerName7,PlayerName8,PlayerName9,PlayerName10 = new Label();
 
     @FXML
+    Label P1WR, P2WR, P3WR, P4WR, P5WR, P6WR, P7WR, P8WR, P9WR, P10WR;
+
+    @FXML
     ImageView Characters11, Characters12, Characters13, Characters21, Characters22, Characters23, Characters31, Characters32, Characters33 ,
             Characters41, Characters42, Characters43, Characters51, Characters52, Characters53, Characters61, Characters62, Characters63,
             Characters71, Characters72, Characters73, Characters81, Characters82, Characters83, Characters91, Characters92, Characters93,
@@ -535,6 +538,7 @@ public class StartScreenController implements Initializable{
             ThirdP10.setText(null);
         }
         updatePlacings();
+        updateWinRates();
     }
 
     private Image getCharacterImage(String character){
@@ -908,7 +912,8 @@ public class StartScreenController implements Initializable{
 
             FileWriter fw = new FileWriter("Data/Settings");
             BufferedWriter bw = new BufferedWriter(fw);
-            if((ChangeTitle.getText() != null) || (!ChangeTitle.getText().equals(""))){
+
+            if(!ChangeTitle.getText().equals("")){
                 bw.write(ChangeTitle.getText());
             }else {
                 bw.write(Title);
@@ -1042,7 +1047,7 @@ public class StartScreenController implements Initializable{
             SecondP9.setText(String.valueOf(p9Placings[1]));
         }
         if(p9Placings[2] != 0){
-            ThirdP2.setText(String.valueOf(p9Placings[2]));
+            ThirdP9.setText(String.valueOf(p9Placings[2]));
         }
 
         String P10 = PlayerName10.getText();
@@ -1125,5 +1130,99 @@ public class StartScreenController implements Initializable{
         updateTopTen();
         updateCharactersAndPlacings();
         fillPlayerBox();
+    }
+
+    public void updateWinRates(){
+        if(PlayerName1.getText().equals("")){
+            P1WR.setText("");
+        } else {
+            updateWinRate(PlayerName1,P1WR);
+        }
+
+        if(PlayerName2.getText().equals("")){
+            P2WR.setText("");
+        } else {
+            updateWinRate(PlayerName2,P2WR);
+        }
+
+        if(PlayerName3.getText().equals("")){
+            P3WR.setText("");
+        } else {
+            updateWinRate(PlayerName3,P3WR);
+        }
+
+        if(PlayerName4.getText().equals("")){
+            P4WR.setText("");
+        } else {
+            updateWinRate(PlayerName4,P4WR);
+        }
+
+        if(PlayerName5.getText().equals("")){
+            P5WR.setText("");
+        } else {
+            updateWinRate(PlayerName5,P5WR);
+        }
+
+        if(PlayerName6.getText().equals("")){
+            P6WR.setText("");
+        } else {
+            updateWinRate(PlayerName6,P6WR);
+        }
+
+        if(PlayerName7.getText().equals("")){
+            P7WR.setText("");
+        } else {
+            updateWinRate(PlayerName7,P7WR);
+        }
+
+        if(PlayerName8.getText().equals("")){
+            P8WR.setText("");
+        } else {
+            updateWinRate(PlayerName8,P8WR);
+        }
+
+        if(PlayerName9.getText().equals("")){
+            P9WR.setText("");
+        } else {
+            updateWinRate(PlayerName9,P9WR);
+        }
+
+        if(PlayerName10.getText().equals("")){
+            P10WR.setText("");
+        } else {
+            updateWinRate(PlayerName10,P10WR);
+        }
+    }
+
+    private void updateWinRate(Label player, Label WR){
+        Season s = getSeason(CurrentGame.getText(),CurrentSeason.getText());
+        HashMap<String,Integer[]> Sets = s.getSetCounts(player.getText(),CurrentGame.getText());
+        Set<String> opponents = Sets.keySet();
+        ArrayList<String> SetStrings = new ArrayList<>();
+        int wins = 0;
+        int losses = 0;
+        for (String opponent:opponents) {
+            Integer[] setCount = Sets.get(opponent);
+            String set = setCount[0] + " W " + setCount[1] + " L vs. " + opponent;
+            SetStrings.add(set);
+            wins = wins + setCount[0];
+            losses = losses + setCount[1];
+        }
+        double percentage = Math.round(((double) wins / (wins + losses)) * 100);
+        WR.setText(String.valueOf(percentage) + "%");
+    }
+
+    public void update(){
+        try {
+            updateTopTen();
+            Thread.sleep(100);
+            updateCharactersAndPlacings();
+            Thread.sleep(100);
+            updatePlacings();
+            Thread.sleep(100);
+            updateWinRates();
+        }catch (InterruptedException IE){
+            System.out.println("couldn't update Slowly");
+        }
     }
 }
