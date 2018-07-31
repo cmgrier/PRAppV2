@@ -19,6 +19,14 @@
 
 <AnchorPane prefHeight="900.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StartScreenController">
    <children>
+      <Polygon fill="WHITE" layoutY="201.0" opacity="0.5" stroke="#b9b9b9" strokeType="INSIDE" strokeWidth="3.0">
+        <points>
+          <Double fx:value="0.0" /> <Double fx:value="0.0" />
+          <Double fx:value="186.0" /> <Double fx:value="0.0" />
+          <Double fx:value="186.0" /> <Double fx:value="598.0" />
+           <Double fx:value="0.0" /> <Double fx:value="598.0" />
+        </points>
+      </Polygon>
       <Polygon fill="#ff1f1fc5" layoutY="39.0" stroke="BLACK" strokeType="INSIDE">
         <points>
           <Double fx:value="0.0" /> <Double fx:value="100" />
@@ -746,14 +754,6 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Polygon fill="WHITE" layoutY="1.0" stroke="#b9b9b9" strokeType="INSIDE" strokeWidth="3.0">
-                          <points>
-                            <Double fx:value="0.0" /> <Double fx:value="0.0" />
-                            <Double fx:value="186.0" /> <Double fx:value="0.0" />
-                            <Double fx:value="186.0" /> <Double fx:value="598.0" />
-                             <Double fx:value="0.0" /> <Double fx:value="598.0" />
-                          </points>
-                        </Polygon>
                         <Button fx:id="AddTournamentButton" layoutX="27.0" layoutY="81.0" mnemonicParsing="false" onAction="#addTournament" text="Add Tournament" />
                         <TextField fx:id="TournamentText" layoutX="20.0" layoutY="20.0" prefHeight="31.0" prefWidth="147.0" promptText="Paste JSON here" />
                         <Label layoutX="76.0" layoutY="14.0" />
@@ -838,7 +838,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button layoutX="1195.0" layoutY="824.0" mnemonicParsing="false" onAction="#update" prefHeight="35.0" prefWidth="48.0" text="↻">
+      <Button layoutX="250.0" layoutY="828.0" mnemonicParsing="false" onAction="#update" prefHeight="35.0" prefWidth="48.0" text="↻">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
