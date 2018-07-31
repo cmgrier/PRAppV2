@@ -3,6 +3,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Polygon;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -23,7 +24,7 @@ public class StartScreenController implements Initializable{
     ComboBox<String> ChangeSeason, ChangeGame, SelectPlayer, SelectPlayerStatistics, FirstCharacter, SecondCharacter, ThirdCharacter, DefaultSeasonBox, BasePlayer, MergePlayer;
 
     @FXML
-    Label CurrentGame, CurrentSeason, TitleText, WinLoss, WinPercentage;
+    Label CurrentGame, CurrentSeason, TitleText, WinLoss, WinPercentage, TourneysEntered;
 
     @FXML
     ListView SetList, TournamentList;
@@ -122,6 +123,7 @@ public class StartScreenController implements Initializable{
         updateTournamentList();
         WinLoss.setVisible(false);
         WinPercentage.setVisible(false);
+        TourneysEntered.setVisible(false);
     }
 
     private void readSettings(){
@@ -257,6 +259,11 @@ public class StartScreenController implements Initializable{
         updateTopTen();
         fillPlayerBox();
         updateTournamentList();
+        WinLoss.setVisible(false);
+        WinPercentage.setVisible(false);
+        TourneysEntered.setVisible(false);
+        SetList.getItems().clear();
+        update();
     }
 
     public void updateTournamentList(){
@@ -1112,6 +1119,8 @@ public class StartScreenController implements Initializable{
             wins = wins + setCount[0];
             losses = losses + setCount[1];
         }
+        TourneysEntered.setVisible(true);
+        TourneysEntered.setText(String.valueOf(tournamentsEntered(Player)));
         SetList.getItems().clear();
         SetList.getItems().addAll(SetStrings);
         WinLoss.setVisible(true);
@@ -1119,6 +1128,35 @@ public class StartScreenController implements Initializable{
         WinLoss.setText(wins + "W - " + losses + "L");
         double percentage = Math.round(((double) wins / (wins + losses)) * 100);
         WinPercentage.setText(String.valueOf(percentage) + "%");
+    }
+
+    private int tournamentsEntered(String player){
+        int numberOfTourneys = 0;
+        Season s = getSeason(CurrentGame.getText(), CurrentSeason.getText());
+        for (String tournament:s.tournaments) {
+            try {
+                String fileLocation = "Data/" + CurrentGame.getText() + "/Tournaments/CSVFiles/" + tournament + ".csv";
+                FileReader fr = new FileReader(fileLocation);
+                BufferedReader br = new BufferedReader(fr);
+                int lineCnt = 0;
+                String line;
+                boolean inTournament = false;
+                while((line = br.readLine()) != null){
+                    lineCnt++;
+                    if(lineCnt > 1){
+                        if(line.contains(player)){
+                            inTournament = true;
+                        }
+                    }
+                }
+                if(inTournament){
+                    numberOfTourneys++;
+                }
+            }catch (IOException ioe){
+                System.out.println("Couldn't read tournement: " + tournament);
+            }
+        }
+        return numberOfTourneys;
     }
 
     public void combinePlayers(){
@@ -1215,11 +1253,11 @@ public class StartScreenController implements Initializable{
     public void update(){
         try {
             updateTopTen();
-            Thread.sleep(100);
+            Thread.sleep(20);
             updateCharactersAndPlacings();
-            Thread.sleep(100);
+            Thread.sleep(20);
             updatePlacings();
-            Thread.sleep(100);
+            Thread.sleep(20);
             updateWinRates();
         }catch (InterruptedException IE){
             System.out.println("couldn't update Slowly");
