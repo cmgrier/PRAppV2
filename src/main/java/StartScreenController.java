@@ -3,6 +3,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import org.json.simple.JSONObject;
@@ -12,6 +13,8 @@ import org.json.simple.parser.ParseException;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
+
+import static javafx.scene.paint.Color.*;
 
 public class StartScreenController implements Initializable{
 
@@ -38,13 +41,16 @@ public class StartScreenController implements Initializable{
     Label PlayerName1,PlayerName2,PlayerName3,PlayerName4,PlayerName5,PlayerName6,PlayerName7,PlayerName8,PlayerName9,PlayerName10 = new Label();
 
     @FXML
-    Label P1WR, P2WR, P3WR, P4WR, P5WR, P6WR, P7WR, P8WR, P9WR, P10WR;
+    Label P1WR, P2WR, P3WR, P4WR, P5WR, P6WR, P7WR, P8WR, P9WR, P10WR, P1SCR, P2SCR, P3SCR, P4SCR, P5SCR, P6SCR, P7SCR, P8SCR, P9SCR, P10SCR;
 
     @FXML
     ImageView Characters11, Characters12, Characters13, Characters21, Characters22, Characters23, Characters31, Characters32, Characters33 ,
             Characters41, Characters42, Characters43, Characters51, Characters52, Characters53, Characters61, Characters62, Characters63,
             Characters71, Characters72, Characters73, Characters81, Characters82, Characters83, Characters91, Characters92, Characters93,
             Characters101, Characters102, Characters103 = new ImageView();
+
+    @FXML
+    Pane P1Arrow, P2Arrow, P3Arrow, P4Arrow, P5Arrow, P6Arrow, P7Arrow, P8Arrow, P9Arrow, P10Arrow;
 
     //Character images below
     private Image Miigunner = new Image("CharacterIcons/stock_90_miigunner_01.png");
@@ -107,7 +113,7 @@ public class StartScreenController implements Initializable{
     private Image Zelda = new Image("CharacterIcons/stock_90_zelda_01.png");
     private Image Random = new Image("CharacterIcons/stock_90_omakase_01.png");
 
-    Font SFQuartziteOblique = Font.loadFont(getClass().getResourceAsStream("/Fonts/SFQuartzite-Oblique.ttf"), 24);
+    Font SFQuartziteOblique = Font.loadFont(getClass().getResourceAsStream("/Fonts/SFQuartzite-Oblique.ttf"), 27);
     Font SFQuartziteShadedOblique = Font.loadFont(getClass().getResourceAsStream("/Fonts/SFQuartziteShaded-Oblique.ttf"), 24);
     Font SFQuartziteExtendedOblique = Font.loadFont(getClass().getResourceAsStream("/Fonts/SFQuartziteExtended-Oblique.ttf"), 20);
     Font AbandonedItalic = Font.loadFont(getClass().getResourceAsStream("/Fonts/Abandoned-Italic.ttf"), 24);
@@ -134,7 +140,7 @@ public class StartScreenController implements Initializable{
         WinLoss.setVisible(false);
         WinPercentage.setVisible(false);
         TourneysEntered.setVisible(false);
-        setFont(BROKERENMIRING);
+        setFont(SFQuartziteOblique);
         TitleText.setFont(SFQuartziteObliqueTitle);
     }
 
@@ -305,15 +311,62 @@ public class StartScreenController implements Initializable{
         ArrayList<Player> players = getSeason(CurrentGame.getText(),CurrentSeason.getText()).orderedList();
         clearTable();
         PlayerName10.setText(players.get(9).tag);
+        updateScore(P10SCR,players.get(9).score);
         PlayerName9.setText(players.get(8).tag);
+        updateScore(P9SCR,players.get(8).score);
         PlayerName8.setText(players.get(7).tag);
+        updateScore(P8SCR,players.get(7).score);
         PlayerName7.setText(players.get(6).tag);
+        updateScore(P7SCR,players.get(6).score);
         PlayerName6.setText(players.get(5).tag);
+        updateScore(P6SCR,players.get(5).score);
         PlayerName5.setText(players.get(4).tag);
+        updateScore(P5SCR,players.get(4).score);
         PlayerName4.setText(players.get(3).tag);
+        updateScore(P4SCR,players.get(3).score);
         PlayerName3.setText(players.get(2).tag);
+        updateScore(P3SCR,players.get(2).score);
         PlayerName2.setText(players.get(1).tag);
+        updateScore(P2SCR,players.get(1).score);
         PlayerName1.setText(players.get(0).tag);
+        updateScore(P1SCR,players.get(0).score);
+
+        addArrow(players.get(0),P1Arrow);
+        addArrow(players.get(1),P2Arrow);
+        addArrow(players.get(2),P3Arrow);
+        addArrow(players.get(3),P4Arrow);
+        addArrow(players.get(4),P5Arrow);
+        addArrow(players.get(5),P6Arrow);
+        addArrow(players.get(6),P7Arrow);
+        addArrow(players.get(7),P8Arrow);
+        addArrow(players.get(8),P9Arrow);
+        addArrow(players.get(9),P10Arrow);
+    }
+
+    private void addArrow(Player player, Pane pane){
+        Polygon Arrow = new Polygon();
+        Arrow.getPoints().addAll(
+                0.0, 5.0,
+                0.0, 20.0,
+                -5.0, 20.0,
+                5.0, 30.0,
+                15.0, 20.0,
+                10.0, 20.0,
+                10.0, 5.0
+        );
+        Arrow.setVisible(true);
+        if(player.score > player.initialScore){
+            Arrow.setFill(LIGHTGREEN);
+            Arrow.setRotate(180);
+        } else if(player.score <= player.initialScore) {
+            Arrow.setFill(RED);
+            Arrow.setOpacity(.5);
+        }
+        if(player.score == 0){
+            Arrow.setVisible(false);
+        }
+        pane.getChildren().clear();
+        pane.getChildren().add(Arrow);
     }
 
     private void updateCharactersAndPlacings(){
@@ -1145,7 +1198,7 @@ public class StartScreenController implements Initializable{
             losses = losses + setCount[1];
         }
         TourneysEntered.setVisible(true);
-        TourneysEntered.setText(String.valueOf(tournamentsEntered(Player)));
+        TourneysEntered.setText("Tournaments Attended: " + String.valueOf(tournamentsEntered(Player)));
         SetList.getItems().clear();
         SetList.getItems().addAll(SetStrings);
         WinLoss.setVisible(true);
@@ -1275,8 +1328,14 @@ public class StartScreenController implements Initializable{
         WR.setText(String.valueOf(percentage) + "%");
     }
 
-    private void updateScores(){
-        Season s = getSeason(CurrentGame.getText(),CurrentSeason.getText());
+    private void updateScore(Label LabelScore, double score){
+        if(score == 0.0){
+            LabelScore.setVisible(false);
+        } else {
+            LabelScore.setVisible(true);
+            int intScore = (int) score;
+            LabelScore.setText(String.valueOf(intScore));
+        }
     }
 
     public void update(){

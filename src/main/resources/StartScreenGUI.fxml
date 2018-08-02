@@ -13,11 +13,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="900.0" prefWidth="1500.0" stylesheets="StyleSheets/ButtonStyles.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StartScreenController">
+<AnchorPane prefHeight="900.0" prefWidth="1500.0" stylesheets="StyleSheets/ButtonStyles.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StartScreenController">
    <children>
       <Polygon fill="WHITE" layoutY="201.0" opacity="0.5" stroke="#b9b9b9" strokeType="INSIDE" strokeWidth="3.0">
         <points>
@@ -35,7 +36,7 @@
           <Double fx:value="1050.0" /> <Double fx:value="100.0" />
         </points>
       </Polygon>
-      <GridPane fx:id="P1SCR" gridLinesVisible="true" layoutX="262.0" layoutY="190.0">
+      <GridPane fx:id="table" gridLinesVisible="true" layoutX="264.0" layoutY="170.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="225.0" minWidth="200.0" prefWidth="224.0" />
@@ -159,7 +160,7 @@
                   <Font name="System Italic" size="24.0" />
                </font>
             </Label>
-            <Label prefHeight="35.0" prefWidth="95.0" text="1" GridPane.rowIndex="1">
+            <Label prefHeight="35.0" prefWidth="20.0" text="1" GridPane.rowIndex="1">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -167,7 +168,7 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label prefHeight="35.0" prefWidth="95.0" text="2" GridPane.rowIndex="2">
+            <Label prefHeight="35.0" prefWidth="20.0" text="2" GridPane.rowIndex="2">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -175,7 +176,7 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label prefHeight="35.0" prefWidth="95.0" text="3" GridPane.rowIndex="3">
+            <Label prefHeight="35.0" prefWidth="20.0" text="3" GridPane.rowIndex="3">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -183,7 +184,7 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label prefHeight="35.0" prefWidth="95.0" text="4" GridPane.rowIndex="4">
+            <Label prefHeight="35.0" prefWidth="20.0" text="4" GridPane.rowIndex="4">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -191,7 +192,7 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label prefHeight="35.0" prefWidth="95.0" text="5" GridPane.rowIndex="5">
+            <Label prefHeight="35.0" prefWidth="20.0" text="5" GridPane.rowIndex="5">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -199,7 +200,7 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label prefHeight="35.0" prefWidth="95.0" text="6" GridPane.rowIndex="6">
+            <Label prefHeight="35.0" prefWidth="20.0" text="6" GridPane.rowIndex="6">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -207,7 +208,7 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label prefHeight="35.0" prefWidth="95.0" text="7" GridPane.rowIndex="7">
+            <Label prefHeight="35.0" prefWidth="20.0" text="7" GridPane.rowIndex="7">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -215,7 +216,7 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label prefHeight="35.0" prefWidth="95.0" text="8" GridPane.rowIndex="8">
+            <Label prefHeight="35.0" prefWidth="20.0" text="8" GridPane.rowIndex="8">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -223,7 +224,7 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label prefHeight="35.0" prefWidth="95.0" text="9" GridPane.rowIndex="9">
+            <Label prefHeight="35.0" prefWidth="20.0" text="9" GridPane.rowIndex="9">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -231,7 +232,7 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label prefHeight="35.0" prefWidth="95.0" text="10" GridPane.rowIndex="10">
+            <Label prefHeight="35.0" prefWidth="30.0" text="10" GridPane.rowIndex="10">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -830,6 +831,20 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
+            <Pane fx:id="P1Arrow" maxHeight="40.0" maxWidth="40.0" prefHeight="40.0" prefWidth="40.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </Pane>
+            <Pane fx:id="P2Arrow" maxHeight="40.0" maxWidth="40.0" prefHeight="40.0" prefWidth="40.0" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+            <Pane fx:id="P3Arrow" maxHeight="40.0" maxWidth="40.0" prefHeight="40.0" prefWidth="40.0" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+            <Pane fx:id="P4Arrow" maxHeight="40.0" maxWidth="40.0" prefHeight="40.0" prefWidth="40.0" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+            <Pane fx:id="P5Arrow" maxHeight="40.0" maxWidth="40.0" prefHeight="40.0" prefWidth="40.0" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+            <Pane fx:id="P6Arrow" maxHeight="40.0" maxWidth="40.0" prefHeight="40.0" prefWidth="40.0" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
+            <Pane fx:id="P7Arrow" maxHeight="40.0" maxWidth="40.0" prefHeight="40.0" prefWidth="40.0" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+            <Pane fx:id="P8Arrow" maxHeight="40.0" maxWidth="40.0" prefHeight="40.0" prefWidth="40.0" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
+            <Pane fx:id="P9Arrow" maxHeight="40.0" maxWidth="40.0" prefHeight="40.0" prefWidth="40.0" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
+            <Pane fx:id="P10Arrow" maxHeight="40.0" maxWidth="40.0" prefHeight="40.0" prefWidth="40.0" GridPane.halignment="RIGHT" GridPane.rowIndex="10" />
          </children>
       </GridPane>
       <Label fx:id="TitleText" layoutX="250.0" layoutY="37.0" prefHeight="103.0" prefWidth="782.0" text="WPI Smash 4 PR">
@@ -906,10 +921,22 @@
             </Tab>
         </tabs>
       </TabPane>
-      <Label layoutX="1168.0" layoutY="37.0" text="Current Season:" />
-      <Label layoutX="1172.0" layoutY="78.0" text="Current Game:" />
-      <Label fx:id="CurrentSeason" layoutX="1295.0" layoutY="37.0" text="Season" />
-      <Label fx:id="CurrentGame" layoutX="1300.0" layoutY="78.0" text="Game" />
+      <Label layoutX="1168.0" layoutY="37.0" text="Current Season:">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font></Label>
+      <Label layoutX="1172.0" layoutY="78.0" text="Current Game:">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font></Label>
+      <Label fx:id="CurrentSeason" layoutX="1295.0" layoutY="37.0" text="Season">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font></Label>
+      <Label fx:id="CurrentGame" layoutX="1300.0" layoutY="78.0" text="Game">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font></Label>
       <Label layoutX="1258.0" layoutY="161.0" text="Player Statistics">
          <font>
             <Font size="24.0" />
@@ -927,7 +954,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button layoutX="250.0" layoutY="828.0" mnemonicParsing="false" onAction="#update" prefHeight="35.0" prefWidth="48.0" text="↻">
+      <Button layoutX="208.0" layoutY="830.0" mnemonicParsing="false" onAction="#update" prefHeight="35.0" prefWidth="48.0" text="↻">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
