@@ -21,6 +21,7 @@ public class Main extends Application{
         StagesClass.mainStage.setTitle("PRAppV2");
         Parent mainScreen = FXMLLoader.load(getClass().getResource("StartScreenGUI.fxml"));
         StagesClass.mainScene = new Scene(mainScreen);
+        //StagesClass.mainScene.getStylesheets().add(getClass().getResource("StyleSheets/ButtonStyles.css").toExternalForm());
 
         stage.setScene(StagesClass.mainScene);
         stage.show();

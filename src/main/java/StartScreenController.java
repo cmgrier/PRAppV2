@@ -4,6 +4,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Polygon;
+import javafx.scene.text.Font;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -106,6 +107,15 @@ public class StartScreenController implements Initializable{
     private Image Zelda = new Image("CharacterIcons/stock_90_zelda_01.png");
     private Image Random = new Image("CharacterIcons/stock_90_omakase_01.png");
 
+    Font SFQuartziteOblique = Font.loadFont(getClass().getResourceAsStream("/Fonts/SFQuartzite-Oblique.ttf"), 24);
+    Font SFQuartziteShadedOblique = Font.loadFont(getClass().getResourceAsStream("/Fonts/SFQuartziteShaded-Oblique.ttf"), 24);
+    Font SFQuartziteExtendedOblique = Font.loadFont(getClass().getResourceAsStream("/Fonts/SFQuartziteExtended-Oblique.ttf"), 20);
+    Font AbandonedItalic = Font.loadFont(getClass().getResourceAsStream("/Fonts/Abandoned-Italic.ttf"), 24);
+    Font AbandonedBoldItalic = Font.loadFont(getClass().getResourceAsStream("/Fonts/Abandoned-BoldItalic.ttf"), 24);
+    Font BROKEREN = Font.loadFont(getClass().getResourceAsStream("/Fonts/BROKEREN.ttf"), 24);
+    Font BROKERENMIRING = Font.loadFont(getClass().getResourceAsStream("/Fonts/BROKEREN MIRING.ttf"), 24);
+    Font SFQuartziteObliqueTitle = Font.loadFont(getClass().getResourceAsStream("/Fonts/SFQuartzite-Oblique.ttf"), 70);
+
     String defaultGame = "Smash4";
     String defaultSeason = "TestSeason";
 
@@ -124,6 +134,21 @@ public class StartScreenController implements Initializable{
         WinLoss.setVisible(false);
         WinPercentage.setVisible(false);
         TourneysEntered.setVisible(false);
+        setFont(BROKERENMIRING);
+        TitleText.setFont(SFQuartziteObliqueTitle);
+    }
+
+    private void setFont(Font font){
+        PlayerName1.setFont(font);
+        PlayerName2.setFont(font);
+        PlayerName3.setFont(font);
+        PlayerName4.setFont(font);
+        PlayerName5.setFont(font);
+        PlayerName6.setFont(font);
+        PlayerName7.setFont(font);
+        PlayerName8.setFont(font);
+        PlayerName9.setFont(font);
+        PlayerName10.setFont(font);
     }
 
     private void readSettings(){
@@ -1248,6 +1273,10 @@ public class StartScreenController implements Initializable{
         }
         double percentage = Math.round(((double) wins / (wins + losses)) * 100);
         WR.setText(String.valueOf(percentage) + "%");
+    }
+
+    private void updateScores(){
+        Season s = getSeason(CurrentGame.getText(),CurrentSeason.getText());
     }
 
     public void update(){
