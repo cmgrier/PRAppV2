@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="665.0" prefWidth="1085.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TutorialController">
+   <children>
+      <TextArea fx:id="Text" editable="false" layoutX="56.0" layoutY="111.0" prefHeight="491.0" prefWidth="427.0" text="     Once tournaments have been added to a season, players will appear in the PR table on the right.  To alter any player in the season, navigate to the Player tab. &#10;     Select any player from the &quot;Select Player&quot; drop box and the players info will be filled in the textfields below.   The initial score is the power score the player has before any matches are calculated.  The score number is the score after the matches have been calculated for all tournaments in the season.  &#10;     Once you are done editing a players information, select the Alter Player button to save your changes.  To create a new Player, fill in the &quot;New Player Tag&quot; textfield and any other fields above then select the &quot;Create New Player&quot; Button.  After editing all the players you would like to edit, navigate to the Season tab and select the &quot;Recalculate Season&quot; button.  This will recalculate all the matches with the updated initial scores.  This will also update the table." wrapText="true">
+         <font>
+            <Font size="16.0" />
+         </font></TextArea>
+      <Pagination fx:id="PageSelect" layoutX="446.0" layoutY="614.0" onMouseMoved="#Tutorial" pageCount="5" prefHeight="56.0" prefWidth="194.0" />
+      <ImageView fx:id="TopRightImage" fitHeight="240.0" fitWidth="370.0" layoutX="667.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="BottomRightImage" fitHeight="240.0" fitWidth="370.0" layoutX="667.0" layoutY="374.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="Title" alignment="CENTER" contentDisplay="CENTER" layoutX="350.0" layoutY="33.0" prefHeight="83.0" prefWidth="385.0" text="Tutorial" textAlignment="CENTER">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

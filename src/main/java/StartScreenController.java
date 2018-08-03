@@ -1,3 +1,4 @@
+import Controllers.StagesClass;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -355,12 +356,14 @@ public class StartScreenController implements Initializable{
                 10.0, 5.0
         );
         Arrow.setVisible(true);
-        if(player.score > player.initialScore){
+        if(player.score > (player.initialScore + 35)){
             Arrow.setFill(LIGHTGREEN);
             Arrow.setRotate(180);
-        } else if(player.score <= player.initialScore) {
+        } else if(player.score < (player.initialScore - 35)) {
             Arrow.setFill(RED);
             Arrow.setOpacity(.5);
+        } else {
+            Arrow.setVisible(false);
         }
         if(player.score == 0){
             Arrow.setVisible(false);
@@ -923,7 +926,12 @@ public class StartScreenController implements Initializable{
         if((ThirdCharacter.getValue() != null) && (!SecondCharacter.getValue().equals(ThirdCharacter.getValue())) && (!FirstCharacter.getValue().equals(ThirdCharacter.getValue()))){
             newCharacterList.add(ThirdCharacter.getValue());
         }
-        Player newPlayer = new Player(NewPlayerTag.getText(), Double.parseDouble(PlayerScore.getText()), newCharacterList);
+        Player newPlayer;
+        if(InitialScore.getText() != null){
+            newPlayer = new Player(NewPlayerTag.getText(), Double.parseDouble(InitialScore.getText()), newCharacterList);
+        } else {
+            newPlayer = new Player(NewPlayerTag.getText(), 1600);
+        }
         s.players.add(newPlayer);
         s.writeSeason(CurrentGame.getText());
         updateCharactersAndPlacings();
@@ -1350,5 +1358,9 @@ public class StartScreenController implements Initializable{
         }catch (InterruptedException IE){
             System.out.println("couldn't update Slowly");
         }
+    }
+
+    public void openTutorial(){
+        StagesClass.tutorialStage.show();
     }
 }
