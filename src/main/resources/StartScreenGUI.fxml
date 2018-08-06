@@ -862,6 +862,8 @@
                         <TextField fx:id="TournamentText" layoutX="20.0" layoutY="20.0" prefHeight="31.0" prefWidth="147.0" promptText="Paste JSON here" />
                         <Label layoutX="76.0" layoutY="14.0" />
                         <ListView fx:id="TournamentList" layoutX="8.0" layoutY="143.0" prefHeight="345.0" prefWidth="170.0" />
+                        <ComboBox fx:id="RemoveTournament" layoutX="18.0" layoutY="504.0" prefHeight="0.0" prefWidth="150.0" promptText="Remove" />
+                        <Button layoutX="14.0" layoutY="547.0" mnemonicParsing="false" onAction="#removeTournament" text="Remove Tournament" />
                      </children>
                   </AnchorPane>
             </content>
@@ -887,6 +889,9 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <ComboBox fx:id="ChangeGame" layoutX="18.0" layoutY="22.0" prefWidth="150.0" promptText="Change Game" />
+                        <Button layoutX="48.0" layoutY="189.0" mnemonicParsing="false" onAction="#addGame" text="Add Game" />
+                        <TextField fx:id="GameTitle" layoutX="15.0" layoutY="136.0" prefHeight="31.0" prefWidth="156.0" promptText="Game Title" />
+                        <Button layoutX="37.0" layoutY="79.0" mnemonicParsing="false" onAction="#changeGame" text="Change Game" />
                      </children>
                   </AnchorPane>
               </content>
@@ -915,6 +920,7 @@
                         <TextField fx:id="ChangeTitle" layoutX="13.0" layoutY="14.0" prefHeight="31.0" prefWidth="160.0" promptText="Change Title" />
                         <ComboBox fx:id="DefaultSeasonBox" layoutX="14.0" layoutY="69.0" prefHeight="31.0" prefWidth="159.0" promptText="Default Season" />
                         <Button layoutX="34.0" layoutY="524.0" mnemonicParsing="false" onAction="#alterSettings" text="Save Changes" />
+                        <ComboBox fx:id="DefaultGameBox" layoutX="19.0" layoutY="122.0" prefWidth="150.0" promptText="Default Game" />
                      </children>
                   </AnchorPane>
               </content>

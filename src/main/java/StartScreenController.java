@@ -4,6 +4,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
@@ -13,6 +14,8 @@ import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 import static javafx.scene.paint.Color.*;
@@ -20,13 +23,13 @@ import static javafx.scene.paint.Color.*;
 public class StartScreenController implements Initializable{
 
     @FXML
-    TextField TournamentText, newSeasonTitle, NewPlayerTag, PlayerScore, ChangeTitle, InitialScore;
+    TextField TournamentText, newSeasonTitle, NewPlayerTag, PlayerScore, ChangeTitle, InitialScore, GameTitle;
 
     @FXML
     Button AddTournamentButton, AddSeasonButton;
 
     @FXML
-    ComboBox<String> ChangeSeason, ChangeGame, SelectPlayer, SelectPlayerStatistics, FirstCharacter, SecondCharacter, ThirdCharacter, DefaultSeasonBox, BasePlayer, MergePlayer;
+    ComboBox<String> ChangeSeason, ChangeGame, SelectPlayer, SelectPlayerStatistics, FirstCharacter, SecondCharacter, ThirdCharacter, DefaultSeasonBox, DefaultGameBox, BasePlayer, MergePlayer, RemoveTournament;
 
     @FXML
     Label CurrentGame, CurrentSeason, TitleText, WinLoss, WinPercentage, TourneysEntered;
@@ -143,6 +146,8 @@ public class StartScreenController implements Initializable{
         TourneysEntered.setVisible(false);
         setFont(SFQuartziteOblique);
         TitleText.setFont(SFQuartziteObliqueTitle);
+        SetList.setVisible(false);
+        fillGameBox();
     }
 
     private void setFont(Font font){
@@ -279,6 +284,17 @@ public class StartScreenController implements Initializable{
             } catch (IOException ioe) {
                 System.out.println("couldn't create season");
             }
+        } else {
+            String seasonTitle = "NewSeason";
+            try {
+                FileWriter fw = new FileWriter("Data/" + game + "/Seasons/" + seasonTitle + ".csv");
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(seasonTitle);
+                bw.close();
+                fw.close();
+            } catch (IOException ioe) {
+                System.out.println("couldn't create season");
+            }
         }
         updateSeasonList();
         updateTournamentList();
@@ -295,17 +311,68 @@ public class StartScreenController implements Initializable{
         WinPercentage.setVisible(false);
         TourneysEntered.setVisible(false);
         SetList.getItems().clear();
+        SetList.setVisible(false);
         update();
     }
 
     public void updateTournamentList(){
         TournamentList.getItems().clear();
+        RemoveTournament.getItems().clear();
         Season s = getSeason(CurrentGame.getText(),CurrentSeason.getText());
         TournamentList.getItems().addAll(s.tournaments);
+        RemoveTournament.getItems().addAll(s.tournaments);
     }
 
     public void changeGame(){
-        //Todo
+        if(ChangeGame.getValue() != "Change Game") {
+            CurrentGame.setText(ChangeGame.getValue());
+            File[] seasons = new File("Data/" + CurrentGame.getText() + "/Seasons").listFiles();
+            if (seasons.length > 0) {
+                CurrentSeason.setText(seasons[0].getName());
+            } else {
+                createSeason();
+            }
+            update();
+            updateTournamentList();
+            updateSeasonList();
+            fillPlayerBox();
+            ChangeGame.setValue("Change Game");
+        }
+    }
+
+    public void addGame() {
+        try {
+            Files.createDirectories(Paths.get("Data/" + GameTitle.getText() + "/Seasons"));
+            Files.createDirectories(Paths.get("Data/" + GameTitle.getText() + "/Tournaments/CSVFiles"));
+            Files.createDirectories(Paths.get("Data/" + GameTitle.getText() + "/Tournaments/JSONFiles"));
+            FileWriter fw = new FileWriter("Data/" + GameTitle.getText() + "/Seasons/EmptySeason.csv");
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write("EmptySeason");
+            bw.close();
+            fw.close();
+            CurrentGame.setText(GameTitle.getText());
+            CurrentSeason.setText("EmptySeason.csv");
+            GameTitle.clear();
+        } catch (IOException ioe) {
+            System.out.println("Could not create Game");
+        }
+        update();
+        updateTournamentList();
+        updateSeasonList();
+        fillPlayerBox();
+        fillGameBox();
+    }
+
+    public void fillGameBox(){
+        File[] directories = new File("Data").listFiles(File::isDirectory);
+        ArrayList<String> games = new ArrayList<>();
+        for (File f:directories) {
+            games.add(f.getName());
+        }
+        ChangeGame.getItems().clear();
+        DefaultGameBox.getItems().clear();
+        ChangeGame.getItems().addAll(games);
+        DefaultGameBox.getItems().addAll(games);
     }
 
     public void updateTopTen(){
@@ -877,6 +944,15 @@ public class StartScreenController implements Initializable{
         TournamentText.clear();
     }
 
+    public void removeTournament(){
+        Season s = getSeason(CurrentGame.getText(),CurrentSeason.getText());
+        if(RemoveTournament.getValue() != null){
+            s.tournaments.remove(RemoveTournament.getValue());
+            s.writeSeason(CurrentGame.getText());
+        }
+        updateTournamentList();
+    }
+
     public void alterPlayer(){
         Season s = getSeason(CurrentGame.getText(),CurrentSeason.getText());
         for (Player p:s.players) {
@@ -1018,7 +1094,11 @@ public class StartScreenController implements Initializable{
                 bw.write(DefaultSeason);
             }
             bw.newLine();
-            bw.write(DefaultGame);
+            if(DefaultGameBox.getValue() != null){
+                bw.write(DefaultGameBox.getValue());
+            }else {
+                bw.write(DefaultGame);
+            }
             bw.close();
             fw.close();
 
@@ -1209,6 +1289,7 @@ public class StartScreenController implements Initializable{
         TourneysEntered.setText("Tournaments Attended: " + String.valueOf(tournamentsEntered(Player)));
         SetList.getItems().clear();
         SetList.getItems().addAll(SetStrings);
+        SetList.setVisible(true);
         WinLoss.setVisible(true);
         WinPercentage.setVisible(true);
         WinLoss.setText(wins + "W - " + losses + "L");
