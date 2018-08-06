@@ -117,6 +117,33 @@ public class StartScreenController implements Initializable{
     private Image Zelda = new Image("CharacterIcons/stock_90_zelda_01.png");
     private Image Random = new Image("CharacterIcons/stock_90_omakase_01.png");
 
+    private Image MeleeBowser = new Image("CharacterIcons/ssbM/Bowser1.png");
+    private Image MeleeCF = new Image("CharacterIcons/ssbM/CF1.png");
+    private Image MeleeDK = new Image("CharacterIcons/ssbM/DK1.png");
+    private Image MeleeDoc = new Image("CharacterIcons/ssbM/Doc1.png");
+    private Image MeleeFalco = new Image("CharacterIcons/ssbM/Falco1.png");
+    private Image MeleeFox = new Image("CharacterIcons/ssbM/Fox1.png");
+    private Image MeleeGanon = new Image("CharacterIcons/ssbM/Ganon1.png");
+    private Image MeleeGW = new Image("CharacterIcons/ssbM/GW1.png");
+    private Image MeleeICs = new Image("CharacterIcons/ssbM/IC1.png");
+    private Image MeleeJigs = new Image("CharacterIcons/ssbM/Jig1.png");
+    private Image MeleeKirby = new Image("CharacterIcons/ssbM/Kirby1.png");
+    private Image MeleeLink = new Image("CharacterIcons/ssbM/Link1.png");
+    private Image MeleeLuigi = new Image("CharacterIcons/ssbM/Luigi1.png");
+    private Image MeleeMario = new Image("CharacterIcons/ssbM/Mario1.png");
+    private Image MeleeMarth = new Image("CharacterIcons/ssbM/Marth1.png");
+    private Image MeleeMew2 = new Image("CharacterIcons/ssbM/Mew1.png");
+    private Image MeleeNess = new Image("CharacterIcons/ssbM/Ness1.png");
+    private Image MeleePeach = new Image("CharacterIcons/ssbM/Peach1.png");
+    private Image MeleePichu = new Image("CharacterIcons/ssbM/Pichu1.png");
+    private Image MeleePikachu = new Image("CharacterIcons/ssbM/Pika1.png");
+    private Image MeleeRoy = new Image("CharacterIcons/ssbM/Roy1.png");
+    private Image MeleeSamus = new Image("CharacterIcons/ssbM/Samus1.png");
+    private Image MeleeSheik = new Image("CharacterIcons/ssbM/Sheik1.png");
+    private Image MeleeYoshi = new Image("CharacterIcons/ssbM/Yoshi1.png");
+    private Image MeleeYoungLink = new Image("CharacterIcons/ssbM/YoungLink1.png");
+    private Image MeleeZelda = new Image("CharacterIcons/ssbM/Zelda1.png");
+
     Font SFQuartziteOblique = Font.loadFont(getClass().getResourceAsStream("/Fonts/SFQuartzite-Oblique.ttf"), 27);
     Font SFQuartziteShadedOblique = Font.loadFont(getClass().getResourceAsStream("/Fonts/SFQuartziteShaded-Oblique.ttf"), 24);
     Font SFQuartziteExtendedOblique = Font.loadFont(getClass().getResourceAsStream("/Fonts/SFQuartziteExtended-Oblique.ttf"), 20);
@@ -871,6 +898,9 @@ public class StartScreenController implements Initializable{
         }
         if(character.equals("Zelda")){
             returnImage = Zelda;
+        }
+        if(CurrentGame.getText().equals("Melee")){
+
         }
         return returnImage;
     }
