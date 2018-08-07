@@ -144,7 +144,76 @@ public class StartScreenController implements Initializable{
     private Image MeleeYoungLink = new Image("CharacterIcons/ssbM/YoungLink1.png");
     private Image MeleeZelda = new Image("CharacterIcons/ssbM/Zelda1.png");
 
+    private Image UltimateBayo = new Image("CharacterIcons/UltimateIcons/bayonetta.png");
+    private Image UltimateBowser = new Image("CharacterIcons/UltimateIcons/bowser.png");
+    private Image UltimateBowserJr = new Image("CharacterIcons/UltimateIcons/bowser_jr.png");
+    private Image UltimateCF = new Image("CharacterIcons/UltimateIcons/captain_falcon.png");
+    private Image UltimateCloud = new Image("CharacterIcons/UltimateIcons/cloud.png");
+    private Image UltimateCorrin = new Image("CharacterIcons/UltimateIcons/corrin.png");
+    private Image UltimateDaisy = new Image("CharacterIcons/UltimateIcons/daisy.png");
+    private Image UltimateDarkPit = new Image("CharacterIcons/UltimateIcons/dark_pit.png");
+    private Image UltimateDiddy = new Image("CharacterIcons/UltimateIcons/diddy_kong.png");
+    private Image UltimateDK = new Image("CharacterIcons/UltimateIcons/donkey_kong.png");
+    private Image UltimateDoc = new Image("CharacterIcons/UltimateIcons/dr_mario.png");
+    private Image UltimateDuckHunt = new Image("CharacterIcons/UltimateIcons/duck_hunt.png");
+    private Image UltimateFalco = new Image("CharacterIcons/UltimateIcons/falco.png");
+    private Image UltimateFox = new Image("CharacterIcons/UltimateIcons/fox.png");
+    private Image UltimateGanondorf = new Image("CharacterIcons/UltimateIcons/ganondorf.png");
+    private Image UltimateGreninja = new Image("CharacterIcons/UltimateIcons/greninja.png");
+    private Image UltimateIceClimbers = new Image("CharacterIcons/UltimateIcons/ice_climbers.png");
+    private Image UltimateIke = new Image("CharacterIcons/UltimateIcons/ike.png");
+    private Image UltimateInkling = new Image("CharacterIcons/UltimateIcons/inkling.png");
+    private Image UltimateJigglypuff = new Image("CharacterIcons/UltimateIcons/jigglypuff.png");
+    private Image UltimateKingDDD = new Image("CharacterIcons/UltimateIcons/king_dedede.png");
+    private Image UltimateKirby = new Image("CharacterIcons/UltimateIcons/kirby.png");
+    private Image UltimateLink = new Image("CharacterIcons/UltimateIcons/link.png");
+    private Image UltimateLittleMac = new Image("CharacterIcons/UltimateIcons/little_mac.png");
+    private Image UltimateLucario = new Image("CharacterIcons/UltimateIcons/lucario.png");
+    private Image UltimateLucas = new Image("CharacterIcons/UltimateIcons/lucas.png");
+    private Image UltimateLucina = new Image("CharacterIcons/UltimateIcons/lucina.png");
+    private Image UltimateLuigi = new Image("CharacterIcons/UltimateIcons/luigi.png");
+    private Image UltimateMario = new Image("CharacterIcons/UltimateIcons/mario.png");
+    private Image UltimateMarth = new Image("CharacterIcons/UltimateIcons/marth.png");
+    private Image UltimateMegaMan = new Image("CharacterIcons/UltimateIcons/mega_man.png");
+    private Image UltimateMetaKnight = new Image("CharacterIcons/UltimateIcons/meta_knight.png");
+    private Image UltimateMewTwo = new Image("CharacterIcons/UltimateIcons/mewtwo.png");
+    private Image UltimateMiiFighter = new Image("CharacterIcons/UltimateIcons/mii_fighter.png");
+    private Image UltimateMrGameAndWatch = new Image("CharacterIcons/UltimateIcons/mr_game_and_watch.png");
+    private Image UltimateNess = new Image("CharacterIcons/UltimateIcons/ness.png");
+    private Image UltimateOlimar = new Image("CharacterIcons/UltimateIcons/olimar.png");
+    private Image UltimatePacMan = new Image("CharacterIcons/UltimateIcons/pac_man.png");
+    private Image UltimatePalutena = new Image("CharacterIcons/UltimateIcons/palutena.png");
+    private Image UltimatePeach = new Image("CharacterIcons/UltimateIcons/peach.png");
+    private Image UltimatePichu = new Image("CharacterIcons/UltimateIcons/pichu.png");
+    private Image UltimatePikachu = new Image("CharacterIcons/UltimateIcons/pikachu.png");
+    private Image UltimatePit = new Image("CharacterIcons/UltimateIcons/pit.png");
+    private Image UltimatePokemonTrainer = new Image("CharacterIcons/UltimateIcons/pokemon_trainer.png");
+    private Image UltimateRidley = new Image("CharacterIcons/UltimateIcons/ridley.png");
+    private Image UltimateRob = new Image("CharacterIcons/UltimateIcons/rob.png");
+    private Image UltimateRobin = new Image("CharacterIcons/UltimateIcons/robin.png");
+    private Image UltimateRosalina = new Image("CharacterIcons/UltimateIcons/rosalina_and_luma.png");
+    private Image UltimateRoy = new Image("CharacterIcons/UltimateIcons/roy.png");
+    private Image UltimateRyu = new Image("CharacterIcons/UltimateIcons/ryu.png");
+    private Image UltimateSamus = new Image("CharacterIcons/UltimateIcons/samus.png");
+    private Image UltimateSheik = new Image("CharacterIcons/UltimateIcons/sheik.png");
+    private Image UltimateShulk = new Image("CharacterIcons/UltimateIcons/shulk.png");
+    private Image UltimateSnake = new Image("CharacterIcons/UltimateIcons/snake.png");
+    private Image UltimateSonic = new Image("CharacterIcons/UltimateIcons/sonic.png");
+    private Image UltimateToonLink = new Image("CharacterIcons/UltimateIcons/toon_link.png");
+    private Image UltimateVillager = new Image("CharacterIcons/UltimateIcons/villager.png");
+    private Image UltimateWario = new Image("CharacterIcons/UltimateIcons/wario.png");
+    private Image UltimateWiiFit = new Image("CharacterIcons/UltimateIcons/wii_fit_trainer.png");
+    private Image UltimateWolf = new Image("CharacterIcons/UltimateIcons/wolf.png");
+    private Image UltimateYoshi = new Image("CharacterIcons/UltimateIcons/yoshi.png");
+    private Image UltimateYoungLink = new Image("CharacterIcons/UltimateIcons/young_link.png");
+    private Image UltimateZelda = new Image("CharacterIcons/UltimateIcons/zelda.png");
+    private Image UltimateZeroSuitSamus = new Image("CharacterIcons/UltimateIcons/zero_suit_samus.png");
+
+
     Font SFQuartziteOblique = Font.loadFont(getClass().getResourceAsStream("/Fonts/SFQuartzite-Oblique.ttf"), 27);
+    Font SFQuartziteObliqueS = Font.loadFont(getClass().getResourceAsStream("/Fonts/SFQuartzite-Oblique.ttf"), 23);
+    Font SFQuartziteObliqueXS = Font.loadFont(getClass().getResourceAsStream("/Fonts/SFQuartzite-Oblique.ttf"), 19);
+    Font SFQuartziteObliqueXXS = Font.loadFont(getClass().getResourceAsStream("/Fonts/SFQuartzite-Oblique.ttf"), 15);
     Font SFQuartziteShadedOblique = Font.loadFont(getClass().getResourceAsStream("/Fonts/SFQuartziteShaded-Oblique.ttf"), 24);
     Font SFQuartziteExtendedOblique = Font.loadFont(getClass().getResourceAsStream("/Fonts/SFQuartziteExtended-Oblique.ttf"), 20);
     Font AbandonedItalic = Font.loadFont(getClass().getResourceAsStream("/Fonts/Abandoned-Italic.ttf"), 24);
@@ -220,6 +289,7 @@ public class StartScreenController implements Initializable{
         for (File seasonFile:seasonFiles) {
             seasonTitles.add(seasonFile.getName());
         }
+        Collections.sort(seasonTitles);
         ChangeSeason.getItems().clear();
         ChangeSeason.getItems().addAll(seasonTitles);
         DefaultSeasonBox.getItems().clear();
@@ -288,6 +358,107 @@ public class StartScreenController implements Initializable{
         options.add("Zelda");
 
         options.add("<Clear>");
+
+        if(CurrentGame.getText().contains("Melee")){
+            options.clear();
+            options.add("Falcon");
+            options.add("DK");
+            options.add("DrMario");
+            options.add("Falco");
+            options.add("Fox");
+            options.add("GameAndWatch");
+            options.add("Ganon");
+            options.add("Kirby");
+            options.add("Bowser");
+            options.add("Link");
+            options.add("Luigi");
+            options.add("Mario");
+            options.add("Marth");
+            options.add("MewTwo");
+            options.add("IceClimbers");
+            options.add("Ness");
+            options.add("Pichu");
+            options.add("Peach");
+            options.add("Pikachu");
+            options.add("JigglyPuff");
+            options.add("Roy");
+            options.add("Samus");
+            options.add("Sheik");
+            options.add("YoungLink");
+            options.add("Yoshi");
+            options.add("Zelda");
+
+            options.add("<Clear>");
+        }
+        if(CurrentGame.getText().contains("Ultimate")){
+            options.clear();
+            options.add("Bayonetta");
+            options.add("Falcon");
+            options.add("Cloud");
+            options.add("DeDeDe");
+            options.add("Diddy");
+            options.add("DK");
+            options.add("DrMario");
+            options.add("DuckHunt");
+            options.add("Falco");
+            options.add("Fox");
+            options.add("GameAndWatch");
+            options.add("Ganon");
+            options.add("Greninja");
+            options.add("Ike");
+            options.add("Corrin");
+            options.add("Kirby");
+            options.add("Bowser");
+            options.add("BowserJr");
+            options.add("Link");
+            options.add("LittleMac");
+            options.add("Lucario");
+            options.add("Lucas");
+            options.add("Lucina");
+            options.add("Luigi");
+            options.add("Mario");
+            options.add("Marth");
+            options.add("MetaKnight");
+            options.add("MewTwo");
+            options.add("MiiBrawler");
+            options.add("MiiGunner");
+            options.add("MiiSwordfighter");
+            options.add("Villager");
+            options.add("Ness");
+            options.add("Pacman");
+            options.add("Palutena");
+            options.add("Peach");
+            options.add("Pikachu");
+            options.add("Olimar");
+            options.add("Pit");
+            options.add("DarkPit");
+            options.add("JigglyPuff");
+            options.add("Robin");
+            options.add("MegaMan");
+            options.add("Rob");
+            options.add("Rosalina");
+            options.add("Roy");
+            options.add("Ryu");
+            options.add("Samus");
+            options.add("Sheik");
+            options.add("Shulk");
+            options.add("Sonic");
+            options.add("ZeroSuitSamus");
+            options.add("ToonLink");
+            options.add("Wario");
+            options.add("WiiFit");
+            options.add("Yoshi");
+            options.add("Zelda");
+            options.add("YoungLink");
+            options.add("Pichu");
+            options.add("IceClimbers");
+            options.add("Snake");
+            options.add("Wolf");
+            options.add("Ridley");
+            options.add("Inkling");
+            options.add("PokemonTrainer");
+            options.add("<Clear>");
+        }
 
         FirstCharacter.getItems().clear();
         SecondCharacter.getItems().clear();
@@ -363,6 +534,7 @@ public class StartScreenController implements Initializable{
             updateTournamentList();
             updateSeasonList();
             fillPlayerBox();
+            fillCharacterList();
             ChangeGame.setValue("Change Game");
         }
     }
@@ -396,6 +568,7 @@ public class StartScreenController implements Initializable{
         for (File f:directories) {
             games.add(f.getName());
         }
+        Collections.sort(games);
         ChangeGame.getItems().clear();
         DefaultGameBox.getItems().clear();
         ChangeGame.getItems().addAll(games);
@@ -405,25 +578,25 @@ public class StartScreenController implements Initializable{
     public void updateTopTen(){
         ArrayList<Player> players = getSeason(CurrentGame.getText(),CurrentSeason.getText()).orderedList();
         clearTable();
-        PlayerName10.setText(players.get(9).tag);
+        setPlayerName(PlayerName10, players.get(9).tag);
         updateScore(P10SCR,players.get(9).score);
-        PlayerName9.setText(players.get(8).tag);
+        setPlayerName(PlayerName9, players.get(8).tag);
         updateScore(P9SCR,players.get(8).score);
-        PlayerName8.setText(players.get(7).tag);
+        setPlayerName(PlayerName8, players.get(7).tag);
         updateScore(P8SCR,players.get(7).score);
-        PlayerName7.setText(players.get(6).tag);
+        setPlayerName(PlayerName7, players.get(6).tag);
         updateScore(P7SCR,players.get(6).score);
-        PlayerName6.setText(players.get(5).tag);
+        setPlayerName(PlayerName6, players.get(5).tag);
         updateScore(P6SCR,players.get(5).score);
-        PlayerName5.setText(players.get(4).tag);
+        setPlayerName(PlayerName5, players.get(4).tag);
         updateScore(P5SCR,players.get(4).score);
-        PlayerName4.setText(players.get(3).tag);
+        setPlayerName(PlayerName4, players.get(3).tag);
         updateScore(P4SCR,players.get(3).score);
-        PlayerName3.setText(players.get(2).tag);
+        setPlayerName(PlayerName3, players.get(2).tag);
         updateScore(P3SCR,players.get(2).score);
-        PlayerName2.setText(players.get(1).tag);
+        setPlayerName(PlayerName2, players.get(1).tag);
         updateScore(P2SCR,players.get(1).score);
-        PlayerName1.setText(players.get(0).tag);
+        setPlayerName(PlayerName1, players.get(0).tag);
         updateScore(P1SCR,players.get(0).score);
 
         addArrow(players.get(0),P1Arrow);
@@ -436,6 +609,18 @@ public class StartScreenController implements Initializable{
         addArrow(players.get(7),P8Arrow);
         addArrow(players.get(8),P9Arrow);
         addArrow(players.get(9),P10Arrow);
+    }
+
+    private void setPlayerName(Label label, String tag){
+        label.setText(tag);
+        label.setFont(SFQuartziteOblique);
+        if(tag.length() > 12 && tag.length() < 15){
+            label.setFont(SFQuartziteObliqueS);
+        } else if(tag.length() >= 15 && tag.length() < 18){
+            label.setFont(SFQuartziteObliqueXS);
+        } else if(tag.length() >= 18){
+            label.setFont(SFQuartziteObliqueXXS);
+        }
     }
 
     private void addArrow(Player player, Pane pane){
@@ -899,8 +1084,284 @@ public class StartScreenController implements Initializable{
         if(character.equals("Zelda")){
             returnImage = Zelda;
         }
-        if(CurrentGame.getText().equals("Melee")){
-
+        if(CurrentGame.getText().contains("Melee")){
+            if(character.equals("Falcon")){
+                returnImage = MeleeCF;
+            }
+            if(character.equals("DK")){
+                returnImage = MeleeDK;
+            }
+            if(character.equals("DrMario")){
+                returnImage = MeleeDoc;
+            }
+            if(character.equals("Falco")){
+                returnImage = MeleeFalco;
+            }
+            if(character.equals("Fox")){
+                returnImage = MeleeFox;
+            }
+            if(character.equals("GameAndWatch")){
+                returnImage = MeleeGW;
+            }
+            if(character.equals("Ganon")){
+                returnImage = MeleeGanon;
+            }
+            if(character.equals("Kirby")){
+                returnImage = MeleeKirby;
+            }
+            if(character.equals("Bowser")){
+                returnImage = MeleeBowser;
+            }
+            if(character.equals("Link")){
+                returnImage = MeleeLink;
+            }
+            if(character.equals("Luigi")){
+                returnImage = MeleeLuigi;
+            }
+            if(character.equals("Mario")){
+                returnImage = MeleeMario;
+            }
+            if(character.equals("Marth")){
+                returnImage = MeleeMarth;
+            }
+            if(character.equals("MewTwo")){
+                returnImage = MeleeMew2;
+            }
+            if(character.equals("IceClimbers")){
+                returnImage = MeleeICs;
+            }
+            if(character.equals("Ness")){
+                returnImage = MeleeNess;
+            }
+            if(character.equals("Pichu")){
+                returnImage = MeleePichu;
+            }
+            if(character.equals("Peach")){
+                returnImage = MeleePeach;
+            }
+            if(character.equals("Pikachu")){
+                returnImage = MeleePikachu;
+            }
+            if(character.equals("JigglyPuff")){
+                returnImage = MeleeJigs;
+            }
+            if(character.equals("Roy")){
+                returnImage = MeleeRoy;
+            }
+            if(character.equals("Samus")){
+                returnImage = MeleeSamus;
+            }
+            if(character.equals("Sheik")){
+                returnImage = MeleeSheik;
+            }
+            if(character.equals("YoungLink")){
+                returnImage = MeleeYoungLink;
+            }
+            if(character.equals("Yoshi")){
+                returnImage = MeleeYoshi;
+            }
+            if(character.equals("Zelda")){
+                returnImage = MeleeZelda;
+            }
+        } else if(CurrentGame.getText().contains("Ultimate") || CurrentGame.getText().contains("SmashU")){
+            if(character.equals("Bayonetta")){
+                returnImage = UltimateBayo;
+            }
+            if(character.equals("Falcon")){
+                returnImage = UltimateCF;
+            }
+            if(character.equals("Cloud")){
+                returnImage = UltimateCloud;
+            }
+            if(character.equals("DeDeDe")){
+                returnImage = UltimateKingDDD;
+            }
+            if(character.equals("Diddy")){
+                returnImage = UltimateDiddy;
+            }
+            if(character.equals("DK")){
+                returnImage = UltimateDK;
+            }
+            if(character.equals("DrMario")){
+                returnImage = UltimateDoc;
+            }
+            if(character.equals("DuckHunt")){
+                returnImage = UltimateDuckHunt;
+            }
+            if(character.equals("Falco")){
+                returnImage = UltimateFalco;
+            }
+            if(character.equals("Fox")){
+                returnImage = UltimateFox;
+            }
+            if(character.equals("GameAndWatch")){
+                returnImage = UltimateMrGameAndWatch;
+            }
+            if(character.equals("Ganon")){
+                returnImage = UltimateGanondorf;
+            }
+            if(character.equals("Greninja")){
+                returnImage = UltimateGreninja;
+            }
+            if(character.equals("Ike")){
+                returnImage = UltimateIke;
+            }
+            if(character.equals("Corrin")){
+                returnImage = UltimateCorrin;
+            }
+            if(character.equals("Kirby")){
+                returnImage = UltimateKirby;
+            }
+            if(character.equals("Bowser")){
+                returnImage = UltimateBowser;
+            }
+            if(character.equals("BowserJr")){
+                returnImage = UltimateBowserJr;
+            }
+            if(character.equals("Link")){
+                returnImage = UltimateLink;
+            }
+            if(character.equals("LittleMac")){
+                returnImage = UltimateLittleMac;
+            }
+            if(character.equals("PokemonTrainer")){
+                returnImage = UltimatePokemonTrainer;
+            }
+            if(character.equals("Lucario")){
+                returnImage = UltimateLucario;
+            }
+            if(character.equals("Lucas")){
+                returnImage = UltimateLucas;
+            }
+            if(character.equals("Lucina")){
+                returnImage = UltimateLucina;
+            }
+            if(character.equals("Luigi")){
+                returnImage = UltimateLuigi;
+            }
+            if(character.equals("Mario")){
+                returnImage = UltimateMario;
+            }
+            if(character.equals("Marth")){
+                returnImage = UltimateMarth;
+            }
+            if(character.equals("MetaKnight")){
+                returnImage = UltimateMetaKnight;
+            }
+            if(character.equals("MewTwo")){
+                returnImage = UltimateMewTwo;
+            }
+            if(character.equals("MiiGunner")){
+                returnImage = UltimateMiiFighter;
+            }
+            if(character.equals("MiiBrawler")){
+                returnImage = UltimateMiiFighter;
+            }
+            if(character.equals("MiiSwordfighter")){
+                returnImage = UltimateMiiFighter;
+            }
+            if(character.equals("Villager")){
+                returnImage = UltimateVillager;
+            }
+            if(character.equals("Ness")){
+                returnImage = UltimateNess;
+            }
+            if(character.equals("Pacman")){
+                returnImage = UltimatePacMan;
+            }
+            if(character.equals("Palutena")){
+                returnImage = UltimatePalutena;
+            }
+            if(character.equals("Peach")){
+                returnImage = UltimatePeach;
+            }
+            if(character.equals("Daisy")){
+                returnImage = UltimateDaisy;
+            }
+            if(character.equals("Snake")){
+                returnImage = UltimateSnake;
+            }
+            if(character.equals("Pikachu")){
+                returnImage = UltimatePikachu;
+            }
+            if(character.equals("Olimar")){
+                returnImage = UltimateOlimar;
+            }
+            if(character.equals("Pit")){
+                returnImage = UltimatePit;
+            }
+            if(character.equals("DarkPit")){
+                returnImage = UltimateDarkPit;
+            }
+            if(character.equals("JigglyPuff")){
+                returnImage = UltimateJigglypuff;
+            }
+            if(character.equals("Robin")){
+                returnImage = UltimateRobin;
+            }
+            if(character.equals("Rob")){
+                returnImage = UltimateRob;
+            }
+            if(character.equals("MegaMan")){
+                returnImage = UltimateMegaMan;
+            }
+            if(character.equals("Rosalina")){
+                returnImage = UltimateRosalina;
+            }
+            if(character.equals("Roy")){
+                returnImage = UltimateRoy;
+            }
+            if(character.equals("Ryu")){
+                returnImage = UltimateRyu;
+            }
+            if(character.equals("Samus")){
+                returnImage = UltimateSamus;
+            }
+            if(character.equals("Sheik")){
+                returnImage = UltimateSheik;
+            }
+            if(character.equals("Shulk")){
+                returnImage = UltimateShulk;
+            }
+            if(character.equals("Sonic")){
+                returnImage = UltimateSonic;
+            }
+            if(character.equals("ZeroSuitSamus")){
+                returnImage = UltimateZeroSuitSamus;
+            }
+            if(character.equals("ToonLink")){
+                returnImage = UltimateToonLink;
+            }
+            if(character.equals("Wario")){
+                returnImage = UltimateWario;
+            }
+            if(character.equals("WiiFit")){
+                returnImage = UltimateWiiFit;
+            }
+            if(character.equals("Yoshi")){
+                returnImage = UltimateYoshi;
+            }
+            if(character.equals("Zelda")){
+                returnImage = UltimateZelda;
+            }
+            if(character.equals("Wolf")){
+                returnImage = UltimateWolf;
+            }
+            if(character.equals("YoungLink")){
+                returnImage = UltimateYoungLink;
+            }
+            if(character.equals("Ridley")){
+                returnImage = UltimateRidley;
+            }
+            if(character.equals("Inkling")){
+                returnImage = UltimateInkling;
+            }
+            if(character.equals("IceClimbers")){
+                returnImage = UltimateIceClimbers;
+            }
+            if(character.equals("Pichu")){
+                returnImage = UltimatePichu;
+            }
         }
         return returnImage;
     }
@@ -1055,6 +1516,7 @@ public class StartScreenController implements Initializable{
         for (Player p:s.players) {
             players.add(p.tag);
         }
+        Collections.sort(players);
         SelectPlayer.getItems().addAll(players);
         BasePlayer.getItems().addAll(players);
         MergePlayer.getItems().addAll(players);
@@ -1466,6 +1928,10 @@ public class StartScreenController implements Initializable{
             updatePlacings();
             Thread.sleep(20);
             updateWinRates();
+            Thread.sleep(20);
+            fillCharacterList();
+            Thread.sleep(20);
+            fillPlayerBox();
         }catch (InterruptedException IE){
             System.out.println("couldn't update Slowly");
         }

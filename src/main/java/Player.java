@@ -53,29 +53,29 @@ public class Player implements Comparable<Player>{
     }
 
     public ArrayList<String> separateCharacters(String characters) {
-        System.out.println(characters);
         ArrayList<String> returnList = new ArrayList<>();
-        ArrayList<Character> charArray = new ArrayList<>();
-        for(int i = 0; i < characters.length();i++){
-            charArray.add(characters.charAt(i));
-        }
-        String tempString = "";
-        for(int i = 0; i < charArray.size(); i++){
-            char currentChar = charArray.get(i);
-            if(currentChar == ':'){
-                returnList.add(tempString);
-                tempString = "";
-            } else {
-                tempString += currentChar;
+        if(characters.equals(":")){
+            return returnList;
+        } else {
+            ArrayList<Character> charArray = new ArrayList<>();
+            for (int i = 0; i < characters.length(); i++) {
+                charArray.add(characters.charAt(i));
             }
+            String tempString = "";
+            for (int i = 0; i < charArray.size(); i++) {
+                char currentChar = charArray.get(i);
+                if (currentChar == ':') {
+                    returnList.add(tempString);
+                    tempString = "";
+                } else {
+                    tempString += currentChar;
+                }
+            }
+            if (!tempString.isEmpty()) {
+                returnList.add(tempString);
+            }
+            return returnList;
         }
-        if(!tempString.isEmpty()){
-            returnList.add(tempString);
-        }
-        //String[] characterList = characters.split(".");
-        //System.out.println(characterList[0]);
-        System.out.println(returnList);
-        return returnList;
     }
 
     public String characterString(){
@@ -85,6 +85,8 @@ public class Player implements Comparable<Player>{
         }
         if(characters.length()>1) {
             return characters.substring(0, characters.length() - 1);
+        } else if(characters.equals(":")) {
+            return "";
         } else {
             return characters;
         }
