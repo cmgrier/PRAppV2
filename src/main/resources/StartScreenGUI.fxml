@@ -652,7 +652,7 @@
                   <Insets right="10.0" />
                </GridPane.margin>
             </Label>
-            <Label prefHeight="35.0" prefWidth="100.0" text="Winrate" GridPane.columnIndex="4">
+            <Label prefHeight="35.0" prefWidth="100.0" text="Win Rate" GridPane.columnIndex="4">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
@@ -920,7 +920,8 @@
                         <TextField fx:id="ChangeTitle" layoutX="13.0" layoutY="14.0" prefHeight="31.0" prefWidth="160.0" promptText="Change Title" />
                         <ComboBox fx:id="DefaultSeasonBox" layoutX="14.0" layoutY="69.0" prefHeight="31.0" prefWidth="159.0" promptText="Default Season" />
                         <Button layoutX="34.0" layoutY="524.0" mnemonicParsing="false" onAction="#alterSettings" text="Save Changes" />
-                        <ComboBox fx:id="DefaultGameBox" layoutX="19.0" layoutY="122.0" prefWidth="150.0" promptText="Default Game" />
+                        <ComboBox fx:id="DefaultGameBox" layoutX="19.0" layoutY="122.0" onAction="#defaultGameSettings" prefWidth="150.0" promptText="Default Game" />
+                        <TextField fx:id="KvalueSetting" layoutX="27.0" layoutY="168.0" prefHeight="31.0" prefWidth="133.0" promptText="New K Value" />
                      </children>
                   </AnchorPane>
               </content>

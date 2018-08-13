@@ -23,7 +23,7 @@ import static javafx.scene.paint.Color.*;
 public class StartScreenController implements Initializable{
 
     @FXML
-    TextField TournamentText, newSeasonTitle, NewPlayerTag, PlayerScore, ChangeTitle, InitialScore, GameTitle;
+    TextField TournamentText, newSeasonTitle, NewPlayerTag, PlayerScore, ChangeTitle, InitialScore, GameTitle, KvalueSetting;
 
     @FXML
     Button AddTournamentButton, AddSeasonButton;
@@ -224,6 +224,7 @@ public class StartScreenController implements Initializable{
 
     String defaultGame = "Smash4";
     String defaultSeason = "TestSeason";
+    int K = 24;
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
@@ -244,6 +245,7 @@ public class StartScreenController implements Initializable{
         TitleText.setFont(SFQuartziteObliqueTitle);
         SetList.setVisible(false);
         fillGameBox();
+        DefaultSeasonBox.setDisable(true);
     }
 
     private void setFont(Font font){
@@ -276,11 +278,32 @@ public class StartScreenController implements Initializable{
                 if(lineCnt == 3){
                     defaultGame = line;
                 }
+                if(lineCnt == 4){
+                    K = Integer.parseInt(line);
+                }
             }
             br.close();
             fr.close();
 
         }catch (IOException ioe){}
+    }
+
+    public void defaultGameSettings(){
+        if(DefaultGameBox.getValue().equals("") || DefaultGameBox.getValue() == null){
+            DefaultSeasonBox.setValue("Default Season");
+            DefaultSeasonBox.getItems().clear();
+            DefaultSeasonBox.setDisable(true);
+        } else {
+            DefaultSeasonBox.setDisable(false);
+            File[] seasonFiles = new File("Data/" + DefaultGameBox.getValue() + "/Seasons").listFiles();
+            ArrayList<String> seasonTitles = new ArrayList<>();
+            for (File seasonFile:seasonFiles) {
+                seasonTitles.add(seasonFile.getName());
+            }
+            Collections.sort(seasonTitles);
+            DefaultSeasonBox.getItems().clear();
+            DefaultSeasonBox.getItems().addAll(seasonTitles);
+        }
     }
 
     public void updateSeasonList(){
@@ -1423,7 +1446,7 @@ public class StartScreenController implements Initializable{
             Season s = getSeason(game,seasonTitle);
 
             if(!TournamentText.getText().isEmpty() && !s.tournaments.contains(tournamentName)){
-                s.addTournament(TournamentText.getText(), game);
+                s.addTournament(TournamentText.getText(), game, K);
                 s.writeSeason(game);
             }
 
@@ -1553,6 +1576,7 @@ public class StartScreenController implements Initializable{
             String Title = "";
             String DefaultSeason = "";
             String DefaultGame = "";
+            String Kvalue = "";
 
             int lineCnt = 0;
             String line;
@@ -1566,6 +1590,9 @@ public class StartScreenController implements Initializable{
                 }
                 if(lineCnt == 3){
                     DefaultGame = line;
+                }
+                if(lineCnt == 4){
+                    Kvalue = line;
                 }
             }
             br.close();
@@ -1591,15 +1618,25 @@ public class StartScreenController implements Initializable{
             }else {
                 bw.write(DefaultGame);
             }
+            bw.newLine();
+            if(!KvalueSetting.getText().equals("") || KvalueSetting.getText() != null){
+                bw.write(KvalueSetting.getText());
+            } else {
+                bw.write(Kvalue);
+            }
             bw.close();
             fw.close();
 
+            DefaultSeasonBox.setDisable(true);
+            KvalueSetting.clear();
+            ChangeTitle.clear();
+            K = Integer.parseInt(Kvalue);
         }catch (IOException ioe){}
     }
 
     public void recalculateSeason(){
         Season s = getSeason(CurrentGame.getText(), CurrentSeason.getText());
-        s.recalculateSeason(CurrentGame.getText());
+        s.recalculateSeason(CurrentGame.getText(), K);
         updateCharactersAndPlacings();
         updateTopTen();
     }
@@ -1786,7 +1823,11 @@ public class StartScreenController implements Initializable{
         WinPercentage.setVisible(true);
         WinLoss.setText(wins + "W - " + losses + "L");
         double percentage = Math.round(((double) wins / (wins + losses)) * 100);
-        WinPercentage.setText(String.valueOf(percentage) + "%");
+        if(wins == 0 && losses == 0){
+            WinPercentage.setText("-");
+        } else {
+            WinPercentage.setText(String.valueOf(percentage) + "%");
+        }
     }
 
     private int tournamentsEntered(String player){
@@ -1906,7 +1947,11 @@ public class StartScreenController implements Initializable{
             losses = losses + setCount[1];
         }
         double percentage = Math.round(((double) wins / (wins + losses)) * 100);
-        WR.setText(String.valueOf(percentage) + "%");
+        if(wins == 0 && losses == 0){
+            WR.setText("-");
+        } else {
+            WR.setText(String.valueOf(percentage) + "%");
+        }
     }
 
     private void updateScore(Label LabelScore, double score){

@@ -26,12 +26,12 @@
       </Label>
       <Button layoutX="475.0" layoutY="610.0" mnemonicParsing="false" onAction="#PGDown" text="&lt;" />
       <Button layoutX="581.0" layoutY="610.0" mnemonicParsing="false" onAction="#PGUp" text="&gt;" />
-      <Label fx:id="PageNumber" alignment="CENTER" layoutX="523.0" layoutY="610.0" prefHeight="21.0" prefWidth="39.0" text="PG#" textAlignment="CENTER">
+      <Label fx:id="PageNumber" alignment="CENTER" layoutX="523.0" layoutY="610.0" prefHeight="21.0" prefWidth="39.0" text="#" textAlignment="CENTER">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="550.0" layoutY="625.0" text="/5" />
+      <Label layoutX="545.0" layoutY="620.0" text="/5" />
       <Label fx:id="SectionTitle" layoutX="56.0" layoutY="70.0" prefHeight="40.0" prefWidth="427.0" text="Section Title" />
    </children>
 </AnchorPane>

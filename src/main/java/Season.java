@@ -30,7 +30,7 @@ public class Season {
     //creates tournament from inputed data
     //type the following URL to get tournament
     //https://api.challonge.com/v1/tournaments/{tournamentKey}.json?include_participants=1&include_matches=1
-    public void addTournament(String tournamentJSON, String game){
+    public void addTournament(String tournamentJSON, String game, int K){
         try {
             // TODO: 7/11/2018 add an if to ensure the tournament name (and location) doesn't exist already
 
@@ -59,7 +59,7 @@ public class Season {
 
             //gets matches from JSON file and writes them into CSV
             ArrayList<Match> matches = new ArrayList<>();
-            matches = readMatches(tournament);
+            matches = readMatches(tournament, K);
             for (Match m:matches) {
                 BCSVWriter.newLine();
                 BCSVWriter.write(m.toString());
@@ -146,7 +146,7 @@ public class Season {
         return orderedList;
     }
 
-    public ArrayList<Match> readMatches(JSONObject tournament){
+    public ArrayList<Match> readMatches(JSONObject tournament, int K){
         //System.out.println("ReadingMatches...");
         //System.out.println("");
         ArrayList<Match> returnList = new ArrayList<>();
@@ -196,7 +196,7 @@ public class Season {
             }
 
             if(p1.getTag().equals(newMatch.getWinner())){
-                p1.updateScores(p2,true);
+                p1.updateScores(p2,true, K);
             }
             for (Player p:this.players) {
                 if(p.getTag().equals(p1.tag)){
@@ -219,7 +219,7 @@ public class Season {
         return returnList;
     }
 
-    public void recalculateSeason(String game){
+    public void recalculateSeason(String game, int K){
         for (Player p : this.players) {
             p.setScore(p.initialScore);
         }
@@ -255,9 +255,9 @@ public class Season {
                         System.out.println("Error Finding Player");
                     }
                     if(p1.getTag().equals(m.getWinner())){
-                        p1.updateScores(p2, true);
+                        p1.updateScores(p2, true, K);
                     } else {
-                        p2.updateScores(p1, true);
+                        p2.updateScores(p1, true, K);
                     }
                     for (Player p:this.players) {
                         if(p.getTag().equals(p1.tag)){

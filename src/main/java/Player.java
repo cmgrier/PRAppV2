@@ -33,7 +33,7 @@ public class Player implements Comparable<Player>{
     }
 
     //updates the scores of the player object and the opposing player. uses ELO with a K value of 24
-    public void updateScores(Player opponent, boolean won){
+    public void updateScores(Player opponent, boolean won, int K){
         double R1 = Math.pow(10, this.score / 400.0);
         double R2 = Math.pow(10, opponent.getScore() / 400.0);
         double E1 = R1 / (R1 + R2);
