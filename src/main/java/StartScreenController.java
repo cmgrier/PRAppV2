@@ -29,7 +29,7 @@ public class StartScreenController implements Initializable{
     Button AddTournamentButton, AddSeasonButton;
 
     @FXML
-    ComboBox<String> ChangeSeason, ChangeGame, SelectPlayer, SelectPlayerStatistics, FirstCharacter, SecondCharacter, ThirdCharacter, DefaultSeasonBox, DefaultGameBox, BasePlayer, MergePlayer, RemoveTournament;
+    ComboBox<String> ChangeSeason, ChangeGame, SelectPlayer, SelectPlayerStatistics, FirstCharacter, SecondCharacter, ThirdCharacter, DefaultSeasonBox, DefaultGameBox, BasePlayer, MergePlayer, RemoveTournament, DeleteSeason;
 
     @FXML
     Label CurrentGame, CurrentSeason, TitleText, WinLoss, WinPercentage, TourneysEntered;
@@ -148,10 +148,12 @@ public class StartScreenController implements Initializable{
     private Image UltimateBowser = new Image("CharacterIcons/UltimateIcons/bowser.png");
     private Image UltimateBowserJr = new Image("CharacterIcons/UltimateIcons/bowser_jr.png");
     private Image UltimateCF = new Image("CharacterIcons/UltimateIcons/captain_falcon.png");
+    private Image UltimateChrom = new Image("CharacterIcons/UltimateIcons/chrom.png");
     private Image UltimateCloud = new Image("CharacterIcons/UltimateIcons/cloud.png");
     private Image UltimateCorrin = new Image("CharacterIcons/UltimateIcons/corrin.png");
     private Image UltimateDaisy = new Image("CharacterIcons/UltimateIcons/daisy.png");
     private Image UltimateDarkPit = new Image("CharacterIcons/UltimateIcons/dark_pit.png");
+    private Image UltimateDarkSamus = new Image("CharacterIcons/UltimateIcons/dark_samus.png");
     private Image UltimateDiddy = new Image("CharacterIcons/UltimateIcons/diddy_kong.png");
     private Image UltimateDK = new Image("CharacterIcons/UltimateIcons/donkey_kong.png");
     private Image UltimateDoc = new Image("CharacterIcons/UltimateIcons/dr_mario.png");
@@ -165,6 +167,7 @@ public class StartScreenController implements Initializable{
     private Image UltimateInkling = new Image("CharacterIcons/UltimateIcons/inkling.png");
     private Image UltimateJigglypuff = new Image("CharacterIcons/UltimateIcons/jigglypuff.png");
     private Image UltimateKingDDD = new Image("CharacterIcons/UltimateIcons/king_dedede.png");
+    private Image UltimateKingKRool = new Image("CharacterIcons/UltimateIcons/king_k_rool.png");
     private Image UltimateKirby = new Image("CharacterIcons/UltimateIcons/kirby.png");
     private Image UltimateLink = new Image("CharacterIcons/UltimateIcons/link.png");
     private Image UltimateLittleMac = new Image("CharacterIcons/UltimateIcons/little_mac.png");
@@ -188,6 +191,7 @@ public class StartScreenController implements Initializable{
     private Image UltimatePikachu = new Image("CharacterIcons/UltimateIcons/pikachu.png");
     private Image UltimatePit = new Image("CharacterIcons/UltimateIcons/pit.png");
     private Image UltimatePokemonTrainer = new Image("CharacterIcons/UltimateIcons/pokemon_trainer.png");
+    private Image UltimateRichter = new Image("CharacterIcons/UltimateIcons/richter.png");
     private Image UltimateRidley = new Image("CharacterIcons/UltimateIcons/ridley.png");
     private Image UltimateRob = new Image("CharacterIcons/UltimateIcons/rob.png");
     private Image UltimateRobin = new Image("CharacterIcons/UltimateIcons/robin.png");
@@ -197,6 +201,7 @@ public class StartScreenController implements Initializable{
     private Image UltimateSamus = new Image("CharacterIcons/UltimateIcons/samus.png");
     private Image UltimateSheik = new Image("CharacterIcons/UltimateIcons/sheik.png");
     private Image UltimateShulk = new Image("CharacterIcons/UltimateIcons/shulk.png");
+    private Image UltimateSimon = new Image("CharacterIcons/UltimateIcons/simon.png");
     private Image UltimateSnake = new Image("CharacterIcons/UltimateIcons/snake.png");
     private Image UltimateSonic = new Image("CharacterIcons/UltimateIcons/sonic.png");
     private Image UltimateToonLink = new Image("CharacterIcons/UltimateIcons/toon_link.png");
@@ -317,6 +322,8 @@ public class StartScreenController implements Initializable{
         ChangeSeason.getItems().addAll(seasonTitles);
         DefaultSeasonBox.getItems().clear();
         DefaultSeasonBox.getItems().addAll(seasonTitles);
+        DeleteSeason.getItems().clear();
+        DeleteSeason.getItems().addAll(seasonTitles);
     }
 
     public void fillCharacterList(){
@@ -480,6 +487,11 @@ public class StartScreenController implements Initializable{
             options.add("Ridley");
             options.add("Inkling");
             options.add("PokemonTrainer");
+            options.add("Chrom");
+            options.add("DarkSamus");
+            options.add("KingKRool");
+            options.add("Richter");
+            options.add("Simon");
             options.add("<Clear>");
         }
 
@@ -1385,6 +1397,21 @@ public class StartScreenController implements Initializable{
             if(character.equals("Pichu")){
                 returnImage = UltimatePichu;
             }
+            if(character.equals("Chrom")){
+                returnImage = UltimateChrom;
+            }
+            if(character.equals("DarkSamus")){
+                returnImage = UltimateDarkSamus;
+            }
+            if(character.equals("KingKRool")){
+                returnImage = UltimateKingKRool;
+            }
+            if(character.equals("Richter")){
+                returnImage = UltimateRichter;
+            }
+            if(character.equals("Simon")){
+                returnImage = UltimateSimon;
+            }
         }
         return returnImage;
     }
@@ -1984,5 +2011,17 @@ public class StartScreenController implements Initializable{
 
     public void openTutorial(){
         StagesClass.tutorialStage.show();
+    }
+
+    public void deleteSeason(){
+        if(DeleteSeason.getValue() != null){
+            File deletedSeason = new File("Data/" + CurrentGame.getText() + "/Seasons/" + DeleteSeason.getValue());
+            if(deletedSeason.delete()){
+                System.out.println("Season Deleted");
+            } else {
+                System.out.println("Season not Deleted");
+            }
+        }
+        updateSeasonList();
     }
 }
