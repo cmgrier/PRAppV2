@@ -978,5 +978,10 @@
             <Font name="Bell MT Italic" size="33.0" />
          </font>
       </Button>
+      <Label fx:id="CurrentRank" alignment="CENTER" layoutX="1268.0" layoutY="614.0" prefHeight="27.0" prefWidth="150.0" text="Current Rank" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

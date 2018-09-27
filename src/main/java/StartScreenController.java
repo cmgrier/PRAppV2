@@ -32,7 +32,7 @@ public class StartScreenController implements Initializable{
     ComboBox<String> ChangeSeason, ChangeGame, SelectPlayer, SelectPlayerStatistics, FirstCharacter, SecondCharacter, ThirdCharacter, DefaultSeasonBox, DefaultGameBox, BasePlayer, MergePlayer, RemoveTournament, DeleteSeason;
 
     @FXML
-    Label CurrentGame, CurrentSeason, TitleText, WinLoss, WinPercentage, TourneysEntered;
+    Label CurrentGame, CurrentSeason, TitleText, WinLoss, WinPercentage, TourneysEntered, CurrentRank;
 
     @FXML
     ListView SetList, TournamentList;
@@ -246,6 +246,7 @@ public class StartScreenController implements Initializable{
         WinLoss.setVisible(false);
         WinPercentage.setVisible(false);
         TourneysEntered.setVisible(false);
+        CurrentRank.setVisible(false);
         setFont(SFQuartziteOblique);
         TitleText.setFont(SFQuartziteObliqueTitle);
         SetList.setVisible(false);
@@ -543,6 +544,7 @@ public class StartScreenController implements Initializable{
         WinLoss.setVisible(false);
         WinPercentage.setVisible(false);
         TourneysEntered.setVisible(false);
+        CurrentRank.setVisible(false);
         SetList.getItems().clear();
         SetList.setVisible(false);
         update();
@@ -1843,6 +1845,8 @@ public class StartScreenController implements Initializable{
         }
         TourneysEntered.setVisible(true);
         TourneysEntered.setText("Tournaments Attended: " + String.valueOf(tournamentsEntered(Player)));
+        CurrentRank.setVisible(true);
+        CurrentRank.setText("Current Rank: " + String.valueOf(getPlayerRank(Player)));
         SetList.getItems().clear();
         SetList.getItems().addAll(SetStrings);
         SetList.setVisible(true);
@@ -1855,6 +1859,28 @@ public class StartScreenController implements Initializable{
         } else {
             WinPercentage.setText(String.valueOf(percentage) + "%");
         }
+    }
+
+    public int getPlayerRank(String player){
+        Season s = getSeason(CurrentGame.getText(), CurrentSeason.getText());
+        ArrayList<Player> orderedPlayersOld = s.orderedList();
+        ArrayList<String> orderedPlayers = new ArrayList<>();
+        int j = 0;
+        for (Player p: orderedPlayersOld) {
+            if(!p.tag.contains("Bye")){
+                orderedPlayers.add(p.tag);
+            }
+            j++;
+        }
+        int i = 1;
+        for (String p:orderedPlayers) {
+            System.out.println(p + " = " + player);
+            if(p.equals(player)){
+                return i;
+            }
+            i++;
+        }
+        return 999;
     }
 
     private int tournamentsEntered(String player){

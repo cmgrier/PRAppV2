@@ -56,6 +56,11 @@ public class Player implements Comparable<Player>{
         }
     }
 
+    // additional points for placing well at tournaments (even of big sizes) as well as just attending.
+    public void attendanceBoost(int placement, int totalEntrants){
+        this.score = this.score + totalEntrants/placement;
+    }
+
     public ArrayList<String> separateCharacters(String characters) {
         ArrayList<String> returnList = new ArrayList<>();
         if(characters.equals(":")){
